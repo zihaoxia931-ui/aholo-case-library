@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111b34">
+  <meta name="description" content="按行业浏览 Aholo 折页中的空间智能与三维应用案例，查看原始演示并分享给同事。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Aholo 行业案例精选">
+  <meta property="og:description" content="10 个行业方向，30 个案例与场景展示。按分类浏览，打开原始演示，方便转发。">
+  <meta property="og:image" content="https://zihaoxia931-ui.github.io/aholo-case-library/assets/case-01.webp">
+  <link rel="icon" type="image/png" href="assets/aholo-icon.png">
+  <title>Aholo 行业案例精选</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Aholo 行业案例首页"><img src="assets/aholo-logo.webp" alt="AHOLO"></a>
+      <a class="header-link" href="https://b.aholo3d.cn/" target="_blank" rel="noopener noreferrer">了解平台 <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="eyebrow-line"></span> AHOLO / CASE COLLECTION</span>
+          <h1 id="page-title">让空间案例<br><em>自己开口。</em></h1>
+          <p>从文旅文博到具身智能，浏览折页里的真实场景。查看原始演示，或把单个案例直接转发给同事。</p>
+          <div class="hero-metrics" aria-label="案例概览">
+            <div><strong>10</strong><span>个行业方向</span></div>
+            <span class="metric-divider" aria-hidden="true"></span>
+            <div><strong>30</strong><span>个案例与场景展示</span></div>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-image hero-image-back"><img src="assets/case-10.webp" alt=""></div>
+          <div class="hero-image hero-image-front"><img src="assets/case-01.webp" alt=""></div>
+          <div class="hero-art-caption"><span class="live-indicator"></span> 30 个案例 / 10 个方向</div>
+        </div>
+      </section>
+
+      <section class="explore" id="explore" aria-labelledby="explore-title">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">THE COLLECTION / 2026</span>
+            <h2 id="explore-title">探索空间的更多可能</h2>
+            <p>选择与你关注的业务最相关的方向，点击图片可放大查看。</p>
+          </div>
+          <button class="share-category" id="share-category" type="button" aria-label="分享当前分类">分享当前页面 <span aria-hidden="true">↗</span></button>
+        </div>
+
+        <div class="category-wrap">
+          <div class="category-tabs" id="category-tabs" role="tablist" aria-label="行业分类"></div>
+        </div>
+
+        <div class="result-bar" aria-live="polite">
+          <div><span class="result-label">当前浏览</span><strong id="current-category">全部案例</strong></div>
+          <span id="result-count">30 个展示</span>
+        </div>
+        <div id="case-list" class="case-list"></div>
+      </section>
+
+      <section class="closing" aria-labelledby="closing-title">
+        <span class="section-kicker">FROM VIEWING TO TRYING</span>
+        <h2 id="closing-title">找到相近场景，<br>再讨论你的试点。</h2>
+        <p>可以从一处空间、一个物体或一段采集素材开始，先验证重建效果与后续应用方式。</p>
+        <a class="primary-link" href="https://b.aholo3d.cn/" target="_blank" rel="noopener noreferrer">前往 Aholo 企业平台 <span aria-hidden="true">↗</span></a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <img class="footer-brand" src="assets/aholo-logo.webp" alt="AHOLO">
+      <p>案例名称、分类与画面整理自 Aholo 产品折页。外部演示链接沿用折页二维码；部分素材的访问权限由原平台决定。</p>
+      <a href="https://b.aholo3d.cn/" target="_blank" rel="noopener noreferrer">官网 ↗</a>
+    </footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog class="image-dialog" id="image-dialog" aria-label="查看案例图片">
+    <button class="dialog-close" id="dialog-close" type="button" aria-label="关闭大图">×</button>
+    <img id="dialog-image" alt="">
+    <p id="dialog-title"></p>
+  </dialog>
+</body>
+</html>
+
