@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#111b34">
-  <meta name="description" content="按行业浏览 Aholo 折页中的空间智能与三维应用案例，查看原始演示并分享给同事。">
+  <meta name="description" content="按行业浏览 Aholo 折页中的空间智能与三维应用案例，点击卡片直接查看案例内容。">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Aholo 行业案例精选">
-  <meta property="og:description" content="10 个行业方向，30 个案例与场景展示。按分类浏览，打开原始演示，方便转发。">
+  <meta property="og:description" content="10 个行业方向，30 个案例与场景展示。点击卡片，直接查看原始演示。">
   <meta property="og:image" content="https://zihaoxia931-ui.github.io/aholo-case-library/assets/case-01.webp?v=20261021">
   <link rel="icon" type="image/png" href="assets/aholo-icon.png">
   <title>Aholo 行业案例精选</title>
-  <link rel="stylesheet" href="styles.css?v=20261021">
-  <script src="app.js?v=20261021" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261021c">
+  <script src="app.js?v=20261021c" defer></script>
 </head>
 <body>
   <div class="page-shell">
@@ -26,7 +26,7 @@
         <div class="hero-copy">
           <span class="eyebrow"><span class="eyebrow-line"></span> AHOLO / CASE COLLECTION</span>
           <h1 id="page-title">让空间案例<br><em>自己开口。</em></h1>
-          <p>从文旅文博到具身智能，浏览折页里的真实场景。查看原始演示，或把单个案例直接转发给同事。</p>
+          <p>从文旅文博到具身智能，浏览折页里的真实场景。点击案例卡片，直接查看视频、三维演示或现场画面。</p>
           <div class="hero-metrics" aria-label="案例概览">
             <div><strong>10</strong><span>个行业方向</span></div>
             <span class="metric-divider" aria-hidden="true"></span>
@@ -45,9 +45,8 @@
           <div>
             <span class="section-kicker">THE COLLECTION / 2026</span>
             <h2 id="explore-title">探索空间的更多可能</h2>
-            <p>选择与你业务相关的方向。点击案例图片，可直接观看视频或查看内容；无外部链接的图片可放大查看。</p>
+            <p>选择与你业务相关的方向，点击任意案例卡片即可查看内容。</p>
           </div>
-          <button class="share-category" id="share-category" type="button" aria-label="分享当前分类">分享当前页面 <span aria-hidden="true">↗</span></button>
         </div>
 
         <div class="category-wrap">
@@ -75,7 +74,6 @@
       <a href="https://b.aholo3d.cn/" target="_blank" rel="noopener noreferrer">官网 ↗</a>
     </footer>
   </div>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <dialog class="image-dialog" id="image-dialog" aria-label="查看案例图片">
     <button class="dialog-close" id="dialog-close" type="button" aria-label="关闭大图">×</button>
     <img id="dialog-image" alt="">

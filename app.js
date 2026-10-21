@@ -75,14 +75,11 @@ const tabs = document.getElementById("category-tabs");
 const list = document.getElementById("case-list");
 const currentCategory = document.getElementById("current-category");
 const resultCount = document.getElementById("result-count");
-const toast = document.getElementById("toast");
-const shareCategoryButton = document.getElementById("share-category");
 const imageDialog = document.getElementById("image-dialog");
 const dialogImage = document.getElementById("dialog-image");
 const dialogTitle = document.getElementById("dialog-title");
 let selected = "all";
 let highlightedCase = null;
-let toastTimer;
 
 function imagePath(id) {
   return `assets/case-${String(id).padStart(2, "0")}.webp?v=20261021`;
@@ -96,21 +93,19 @@ function actionLabel(url) {
 
 function cardMarkup(category, item) {
   const [id, title, url] = item;
-  const image = `<img src="${imagePath(id)}" alt="${title}的折页配图" loading="lazy" decoding="async">`;
-  const imageAction = url
-    ? `<a class="image-view" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${actionLabel(url)}：${title}">${image}<span class="image-zoom">${actionLabel(url)} <span aria-hidden="true">↗</span></span></a>`
-    : `<button class="image-view" type="button" data-view-case="${id}" aria-label="放大查看${title}图片">${image}<span class="image-zoom">放大查看图片 <span aria-hidden="true">↗</span></span></button>`;
-  const open = url
-    ? `<a class="case-open" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${actionLabel(url)}：${title}"><span>${actionLabel(url)}</span><span class="action-arrow" aria-hidden="true">↗</span></a>`
-    : `<button class="case-open case-open-image" type="button" data-view-case="${id}" aria-label="放大查看${title}图片"><span>查看高清图片</span><span class="action-arrow" aria-hidden="true">↗</span></button>`;
-  return `<article class="case-card${id === highlightedCase ? " is-target" : ""}" id="case-${id}">
-    <div class="case-image">${imageAction}</div>
+  const tag = url ? "a" : "article";
+  const label = url ? actionLabel(url) : "查看大图";
+  const destination = url
+    ? `href="${url}" target="_blank" rel="noopener noreferrer"`
+    : `role="button" tabindex="0" data-view-case="${id}"`;
+  return `<${tag} class="case-card${url ? "" : " case-card-image"}${id === highlightedCase ? " is-target" : ""}" id="case-${id}" ${destination} aria-label="${title}：${label}">
+    <div class="case-image"><img src="${imagePath(id)}" alt="${title}的折页配图" loading="lazy" decoding="async"><span class="image-zoom" aria-hidden="true">${label} ↗</span></div>
     <div class="case-body">
       <div class="case-kind">${category.name} · ${String(id).padStart(2, "0")}</div>
       <h4 class="case-title">${title}</h4>
-      <div class="case-actions">${open}<button class="case-share" type="button" data-share-case="${id}" aria-label="分享${title}的页面链接">分享此案例 ↗</button></div>
+      <div class="case-action"><span>${label}</span><span aria-hidden="true">↗</span></div>
     </div>
-  </article>`;
+  </${tag}>`;
 }
 
 function sectionMarkup(category, index) {
@@ -152,31 +147,6 @@ function setSelection(slug, caseId = null, updateUrl = true) {
   }
 }
 
-function showToast(message) {
-  clearTimeout(toastTimer);
-  toast.textContent = message;
-  toast.classList.add("is-visible");
-  toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 2600);
-}
-
-async function shareLink(url, title) {
-  if (navigator.share) {
-    try { await navigator.share({ title, url }); return; } catch (error) { if (error.name === "AbortError") return; }
-  }
-  try {
-    await navigator.clipboard.writeText(url);
-    showToast("链接已复制，可转发给同事");
-  } catch {
-    const input = document.createElement("input");
-    input.value = url;
-    document.body.appendChild(input);
-    input.select();
-    const copied = document.execCommand("copy");
-    input.remove();
-    showToast(copied ? "链接已复制，可转发给同事" : "请复制浏览器地址栏中的链接");
-  }
-}
-
 tabs.addEventListener("click", event => {
   const button = event.target.closest("[data-category]");
   if (!button) return;
@@ -185,39 +155,30 @@ tabs.addEventListener("click", event => {
 });
 
 list.addEventListener("click", event => {
-  const imageButton = event.target.closest("[data-view-case]");
-  if (imageButton) {
-    const id = Number(imageButton.dataset.viewCase);
-    const category = categories.find(group => group.cases.some(item => item[0] === id));
-    const item = category.cases.find(entry => entry[0] === id);
-    dialogImage.src = imagePath(id);
-    dialogImage.alt = `${item[1]}的折页配图`;
-    dialogTitle.textContent = `${category.name} / ${item[1]}`;
-    imageDialog.showModal();
-    return;
-  }
-  const button = event.target.closest("[data-share-case]");
-  if (!button) return;
-  const id = Number(button.dataset.shareCase);
+  const card = event.target.closest("[data-view-case]");
+  if (!card) return;
+  showCaseImage(Number(card.dataset.viewCase));
+});
+
+list.addEventListener("keydown", event => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const card = event.target.closest("[data-view-case]");
+  if (!card) return;
+  event.preventDefault();
+  showCaseImage(Number(card.dataset.viewCase));
+});
+
+function showCaseImage(id) {
   const category = categories.find(group => group.cases.some(item => item[0] === id));
   const item = category.cases.find(entry => entry[0] === id);
-  const url = new URL(window.location.href);
-  url.search = "";
-  url.hash = "";
-  url.searchParams.set("case", String(id));
-  shareLink(url.toString(), `Aholo 案例｜${item[1]}`);
-});
+  dialogImage.src = imagePath(id);
+  dialogImage.alt = `${item[1]}的折页配图`;
+  dialogTitle.textContent = `${category.name} / ${item[1]}`;
+  imageDialog.showModal();
+}
 
 document.getElementById("dialog-close").addEventListener("click", () => imageDialog.close());
 imageDialog.addEventListener("click", event => { if (event.target === imageDialog) imageDialog.close(); });
-
-shareCategoryButton.addEventListener("click", () => {
-  const url = new URL(window.location.href);
-  url.search = "";
-  url.hash = "";
-  if (selected !== "all") url.searchParams.set("category", selected);
-  shareLink(url.toString(), `Aholo 行业案例｜${currentCategory.textContent}`);
-});
 
 const incoming = new URL(window.location.href).searchParams;
 const targetId = Number(incoming.get("case"));
