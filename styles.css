@@ -80,17 +80,18 @@ h1 em { color: #a8b0ff; font-style: normal; }
 .image-view { width: 100%; display: block; border: 0; padding: 0; position: relative; background: transparent; text-align: left; }
 .image-view img { width: 100%; height: auto; transition: transform .5s ease; }
 .image-view:hover img, .image-view:focus-visible img { transform: scale(1.025); }
-.image-zoom { position: absolute; bottom: 12px; right: 12px; padding: 8px 11px; border-radius: 999px; color: white; background: rgba(12,22,46,.82); backdrop-filter: blur(8px); font-size: 11px; font-weight: 700; opacity: 0; transform: translateY(5px); transition: .2s; }
-.image-view:hover .image-zoom, .image-view:focus-visible .image-zoom { opacity: 1; transform: none; }
+.image-zoom { position: absolute; bottom: 12px; right: 12px; display: inline-flex; align-items: center; gap: 9px; padding: 10px 13px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; color: white; background: rgba(12,22,46,.86); backdrop-filter: blur(8px); box-shadow: 0 5px 15px rgba(0,0,0,.2); font-size: 12px; font-weight: 740; transition: background .2s, transform .2s; }
+.image-view:hover .image-zoom, .image-view:focus-visible .image-zoom { background: rgba(54,67,177,.96); transform: translateY(-2px); }
 .case-body { padding: 18px 2px 0; }
 .case-kind { color: var(--blue); font-size: 11px; font-weight: 770; letter-spacing: .1em; margin-bottom: 9px; }
 .case-title { margin: 0; font-size: 20px; font-weight: 750; letter-spacing: -.035em; line-height: 1.4; min-height: 56px; }
-.case-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 15px; border-top: 1px solid var(--line); margin-top: 14px; }
-.case-open, .case-unlinked { font-size: 12px; font-weight: 730; }
-.case-open { color: #3e4bc1; }
-.case-open:hover, .case-open:focus-visible { text-decoration: underline; }
-.case-unlinked { color: #89919e; }
-.case-share { border: 0; padding: 3px 0; color: #687389; background: transparent; font-size: 12px; font-weight: 650; }
+.case-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding-top: 15px; border-top: 1px solid var(--line); margin-top: 14px; }
+.case-open { display: inline-flex; flex: 1; align-items: center; justify-content: space-between; gap: 9px; min-height: 46px; padding: 10px 14px; border: 0; border-radius: 10px; background: #3948bf; color: white; box-shadow: 0 6px 14px rgba(57,72,191,.17); font-size: 13px; font-weight: 760; text-align: left; transition: background .2s, transform .2s, box-shadow .2s; }
+.case-open:hover, .case-open:focus-visible { background: #27379f; transform: translateY(-2px); box-shadow: 0 9px 18px rgba(57,72,191,.23); }
+.case-open-image { background: #e6e9f6; color: var(--ink); box-shadow: none; }
+.case-open-image:hover, .case-open-image:focus-visible { background: #dce1f5; box-shadow: none; }
+.action-arrow { font-size: 17px; line-height: 1; }
+.case-share { flex: none; min-height: 44px; border: 0; padding: 8px 2px; color: #687389; background: transparent; font-size: 12px; font-weight: 650; white-space: nowrap; }
 .case-share:hover, .case-share:focus-visible { color: #3e4bc1; text-decoration: underline; }
 
 .closing { padding: 94px max(32px, calc((100vw - var(--max)) / 2 + 32px)) 100px; color: white; background: radial-gradient(circle at 84% 35%, rgba(111,124,251,.35), transparent 27%), linear-gradient(120deg, #151d40, #10172e); position: relative; }
@@ -118,7 +119,7 @@ h1 em { color: #a8b0ff; font-style: normal; }
   .hero-art { height: 350px; }
   .cards { gap: 20px; }
   .case-title { font-size: 17px; }
-  .case-actions { align-items: start; flex-direction: column; gap: 5px; }
+  .case-actions { align-items: stretch; gap: 7px; }
 }
 
 @media (max-width: 700px) {
@@ -155,12 +156,13 @@ h1 em { color: #a8b0ff; font-style: normal; }
   .group-index { font-size: 24px; }
   .cards { grid-template-columns: 1fr; gap: 34px; }
   .case-image { border-radius: 11px; }
-  .image-zoom { opacity: 1; transform: none; font-size: 10px; bottom: 10px; right: 10px; }
+  .image-zoom { font-size: 11px; bottom: 10px; right: 10px; }
   .case-body { padding: 14px 2px 0; }
   .case-kind { font-size: 10px; margin-bottom: 6px; }
   .case-title { font-size: 21px; min-height: 0; }
-  .case-actions { flex-direction: row; align-items: center; margin-top: 12px; padding-top: 12px; }
-  .case-open, .case-unlinked, .case-share { font-size: 12px; }
+  .case-actions { align-items: center; margin-top: 12px; padding-top: 12px; }
+  .case-open { min-height: 48px; font-size: 13px; }
+  .case-share { font-size: 12px; }
   .closing { padding: 69px 21px 78px; }
   .closing::before { right: -100px; top: 25%; }
   .closing h2 { font-size: 44px; }

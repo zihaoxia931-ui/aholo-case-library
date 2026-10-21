@@ -85,23 +85,26 @@ let highlightedCase = null;
 let toastTimer;
 
 function imagePath(id) {
-  return `assets/case-${String(id).padStart(2, "0")}.webp`;
+  return `assets/case-${String(id).padStart(2, "0")}.webp?v=20261021`;
 }
 
 function actionLabel(url) {
-  if (!url) return "折页图片展示";
-  if (url.includes("drive.weixin.qq.com")) return "打开案例资料 ↗";
-  if (url.includes("bilibili.com")) return "观看视频 ↗";
-  return "查看演示 ↗";
+  if (url.includes("drive.weixin.qq.com")) return "查看案例内容";
+  if (url.includes("bilibili.com")) return "观看视频";
+  return "查看 3D 演示";
 }
 
 function cardMarkup(category, item) {
   const [id, title, url] = item;
+  const image = `<img src="${imagePath(id)}" alt="${title}的折页配图" loading="lazy" decoding="async">`;
+  const imageAction = url
+    ? `<a class="image-view" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${actionLabel(url)}：${title}">${image}<span class="image-zoom">${actionLabel(url)} <span aria-hidden="true">↗</span></span></a>`
+    : `<button class="image-view" type="button" data-view-case="${id}" aria-label="放大查看${title}图片">${image}<span class="image-zoom">放大查看图片 <span aria-hidden="true">↗</span></span></button>`;
   const open = url
-    ? `<a class="case-open" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="打开${title}的原始演示">${actionLabel(url)}</a>`
-    : `<span class="case-unlinked">${actionLabel(url)}</span>`;
+    ? `<a class="case-open" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${actionLabel(url)}：${title}"><span>${actionLabel(url)}</span><span class="action-arrow" aria-hidden="true">↗</span></a>`
+    : `<button class="case-open case-open-image" type="button" data-view-case="${id}" aria-label="放大查看${title}图片"><span>查看高清图片</span><span class="action-arrow" aria-hidden="true">↗</span></button>`;
   return `<article class="case-card${id === highlightedCase ? " is-target" : ""}" id="case-${id}">
-    <div class="case-image"><button class="image-view" type="button" data-view-case="${id}" aria-label="放大查看${title}图片"><img src="${imagePath(id)}" alt="${title}的折页配图" loading="lazy" decoding="async"><span class="image-zoom" aria-hidden="true">放大查看 ↗</span></button></div>
+    <div class="case-image">${imageAction}</div>
     <div class="case-body">
       <div class="case-kind">${category.name} · ${String(id).padStart(2, "0")}</div>
       <h4 class="case-title">${title}</h4>
