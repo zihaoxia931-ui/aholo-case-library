@@ -41,12 +41,13 @@ h1 em { color: #a8b0ff; font-style: normal; }
 .hero-metrics span:not(.metric-divider) { font-size: 12px; color: #aab8d2; }
 .metric-divider { width: 1px; height: 26px; background: rgba(226,234,255,.22); }
 .hero-showcase { min-width: 0; }
-.hero-art { height: 420px; position: relative; touch-action: pan-y; }
+.hero-art { height: 420px; position: relative; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
 .hero-art::before { content: ""; position: absolute; inset: 22px -10px 13px 25px; border: 1px solid rgba(184,200,255,.42); border-radius: 24px; transform: rotate(5deg); }
 .hero-image { position: absolute; display: block; padding: 0; overflow: hidden; background: #182442; border: 6px solid #fff; border-radius: 17px; box-shadow: 0 25px 55px rgba(0,0,0,.42); transition: filter .2s ease, box-shadow .2s ease; }
-.hero-image img { width: 100%; height: 100%; object-fit: cover; }
+.hero-image img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
 .hero-image-back { width: 59%; height: 56%; top: 6%; right: 0; transform: rotate(7deg); cursor: pointer; }
-.hero-image-front { width: 83%; height: 71%; bottom: 4%; left: 0; transform: rotate(-5deg); }
+.hero-image-front { width: 83%; height: 71%; bottom: 4%; left: 0; transform: translateX(var(--drag-x, 0px)) rotate(-5deg); transition: transform .28s ease, filter .2s ease, box-shadow .2s ease; }
+.hero-art.is-dragging .hero-image-front { transition: none; cursor: grabbing; }
 .hero-image:hover, .hero-image:focus-visible { filter: brightness(1.08); box-shadow: 0 28px 62px rgba(0,0,0,.52); }
 .hero-image:focus-visible { outline: 3px solid #a8b0ff; outline-offset: 5px; }
 .hero-image.is-changing { animation: hero-image-in .36s ease both; }
@@ -57,6 +58,7 @@ h1 em { color: #a8b0ff; font-style: normal; }
 .hero-carousel-controls { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 0 0 5px; }
 .hero-carousel-info { display: grid; gap: 5px; min-width: 0; }
 .hero-carousel-info span { color: #9faaf2; font-size: 9px; font-weight: 770; letter-spacing: .16em; }
+.hero-carousel-info small { margin-left: 10px; color: #bac5e4; font-size: 10px; font-weight: 570; letter-spacing: 0; }
 .hero-carousel-info strong { overflow: hidden; color: #f5f6ff; font-size: 14px; font-weight: 690; white-space: nowrap; text-overflow: ellipsis; }
 .hero-nav { display: flex; align-items: center; gap: 11px; flex: none; }
 .hero-arrow { width: 36px; height: 36px; padding: 0; display: grid; place-items: center; border: 1px solid rgba(212,223,255,.38); border-radius: 50%; color: #f5f6ff; background: rgba(255,255,255,.08); font-size: 18px; line-height: 1; transition: background .2s, transform .2s; }

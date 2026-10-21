@@ -93,7 +93,7 @@ function imagePath(id) {
 
 const heroSlides = [1, 10, 4, 19, 25, 28].map(id => {
   const category = categories.find(group => group.cases.some(item => item[0] === id));
-  return { category: category.name, item: category.cases.find(item => item[0] === id) };
+  return { category: category.name, slug: category.slug, item: category.cases.find(item => item[0] === id) };
 });
 const heroShowcase = document.getElementById("hero-showcase");
 const heroArt = document.getElementById("hero-art");
@@ -111,12 +111,15 @@ function setHeroSlide(index, animate = true) {
   heroIndex = (index + heroSlides.length) % heroSlides.length;
   const active = heroSlides[heroIndex];
   const upcoming = heroSlides[(heroIndex + 1) % heroSlides.length];
-  heroCurrentLink.href = active.item[2];
-  heroCurrentLink.setAttribute("aria-label", `查看${active.item[1]}案例`);
+  heroCurrentLink.href = `?category=${active.slug}#group-${active.slug}`;
+  heroCurrentLink.dataset.category = active.slug;
+  heroCurrentLink.setAttribute("aria-label", `查看${active.category}行业`);
   heroCurrentLink.querySelector("img").src = imagePath(active.item[0]);
   heroCurrentLink.querySelector("img").alt = `${active.item[1]}案例画面`;
   heroNextImage.querySelector("img").src = imagePath(upcoming.item[0]);
-  heroNextImage.setAttribute("aria-label", `切换到${upcoming.item[1]}案例`);
+  heroNextImage.href = `?category=${upcoming.slug}#group-${upcoming.slug}`;
+  heroNextImage.dataset.category = upcoming.slug;
+  heroNextImage.setAttribute("aria-label", `查看${upcoming.category}行业`);
   heroCount.textContent = `${String(heroIndex + 1).padStart(2, "0")} / ${String(heroSlides.length).padStart(2, "0")}`;
   heroCaseTitle.textContent = `${active.category} / ${active.item[1]}`;
   heroDots.querySelectorAll("button").forEach((dot, dotIndex) => dot.setAttribute("aria-pressed", String(dotIndex === heroIndex)));
@@ -129,9 +132,20 @@ function setHeroSlide(index, animate = true) {
   }
 }
 
+setHeroSlide(0, false);
 document.getElementById("hero-prev").addEventListener("click", () => setHeroSlide(heroIndex - 1));
 document.getElementById("hero-next").addEventListener("click", () => setHeroSlide(heroIndex + 1));
-heroNextImage.addEventListener("click", () => setHeroSlide(heroIndex + 1));
+function openHeroCategory(event) {
+  event.preventDefault();
+  const slug = event.currentTarget.dataset.category;
+  setSelection(slug);
+  const url = new URL(window.location.href);
+  url.hash = `group-${slug}`;
+  history.replaceState(null, "", url);
+  requestAnimationFrame(() => document.getElementById(`group-${slug}`)?.closest(".category-section")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+}
+heroCurrentLink.addEventListener("click", openHeroCategory);
+heroNextImage.addEventListener("click", openHeroCategory);
 heroDots.addEventListener("click", event => {
   const dot = event.target.closest("[data-hero-slide]");
   if (dot) setHeroSlide(Number(dot.dataset.heroSlide));
@@ -142,21 +156,38 @@ heroShowcase.addEventListener("keydown", event => {
   setHeroSlide(heroIndex + (event.key === "ArrowRight" ? 1 : -1));
 });
 
-let heroTouchStart = null;
-heroArt.addEventListener("touchstart", event => {
-  if (event.touches.length === 1) heroTouchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-}, { passive: true });
-heroArt.addEventListener("touchend", event => {
-  if (!heroTouchStart || !event.changedTouches.length) return;
-  const dx = event.changedTouches[0].clientX - heroTouchStart.x;
-  const dy = event.changedTouches[0].clientY - heroTouchStart.y;
-  heroTouchStart = null;
+let heroPointerStart = null;
+heroArt.addEventListener("dragstart", event => event.preventDefault());
+heroArt.addEventListener("pointerdown", event => {
+  if (!event.isPrimary || event.button !== 0) return;
+  heroPointerStart = { id: event.pointerId, x: event.clientX, y: event.clientY };
+});
+window.addEventListener("pointermove", event => {
+  if (!heroPointerStart || event.pointerId !== heroPointerStart.id) return;
+  const dx = event.clientX - heroPointerStart.x;
+  const dy = event.clientY - heroPointerStart.y;
+  if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy) * 1.1) return;
+  heroArt.classList.add("is-dragging");
+  heroArt.style.setProperty("--drag-x", `${Math.max(-110, Math.min(110, dx))}px`);
+});
+window.addEventListener("pointerup", event => {
+  if (!heroPointerStart || event.pointerId !== heroPointerStart.id) return;
+  const dx = event.clientX - heroPointerStart.x;
+  const dy = event.clientY - heroPointerStart.y;
+  heroPointerStart = null;
+  heroArt.classList.remove("is-dragging");
+  heroArt.style.removeProperty("--drag-x");
   if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
   suppressHeroClick = true;
   setHeroSlide(heroIndex + (dx < 0 ? 1 : -1));
   window.setTimeout(() => { suppressHeroClick = false; }, 450);
-}, { passive: true });
-heroArt.addEventListener("touchcancel", () => { heroTouchStart = null; });
+});
+window.addEventListener("pointercancel", event => {
+  if (!heroPointerStart || event.pointerId !== heroPointerStart.id) return;
+  heroPointerStart = null;
+  heroArt.classList.remove("is-dragging");
+  heroArt.style.removeProperty("--drag-x");
+});
 heroArt.addEventListener("click", event => {
   if (!suppressHeroClick) return;
   event.preventDefault();
@@ -219,6 +250,7 @@ function setSelection(slug, caseId = null, updateUrl = true) {
     const url = new URL(window.location.href);
     url.searchParams.delete("category");
     url.searchParams.delete("case");
+    url.hash = "";
     if (slug !== "all") url.searchParams.set("category", slug);
     history.replaceState(null, "", url);
   }
@@ -297,3 +329,6 @@ const targetId = Number(incoming.get("case"));
 const targetGroup = categories.find(group => group.cases.some(item => item[0] === targetId));
 if (targetGroup) setSelection(targetGroup.slug, targetId, false);
 else setSelection(incoming.get("category") || "all", null, false);
+if (window.location.hash.startsWith("#group-")) {
+  requestAnimationFrame(() => document.getElementById(window.location.hash.slice(1))?.closest(".category-section")?.scrollIntoView({ block: "start" }));
+}
