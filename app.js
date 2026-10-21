@@ -275,22 +275,45 @@ function cycleCategory(direction) {
 
 document.getElementById("mobile-category-prev").addEventListener("click", () => cycleCategory(-1));
 document.getElementById("mobile-category-next").addEventListener("click", () => cycleCategory(1));
-let categoryTouchStart = null;
+let categoryPointerStart = null;
 let suppressCategoryClick = false;
-mobileCategoryCarousel.addEventListener("touchstart", event => {
-  if (event.touches.length === 1) categoryTouchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-}, { passive: true });
-mobileCategoryCarousel.addEventListener("touchend", event => {
-  if (!categoryTouchStart || !event.changedTouches.length) return;
-  const dx = event.changedTouches[0].clientX - categoryTouchStart.x;
-  const dy = event.changedTouches[0].clientY - categoryTouchStart.y;
-  categoryTouchStart = null;
-  if (Math.abs(dx) < 35 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+let categoryClickTimer = null;
+function resetCategoryDrag() {
+  categoryPointerStart = null;
+  mobileCategoryCarousel.classList.remove("is-swiping");
+  mobileCategoryCarousel.style.removeProperty("--swipe-x");
+}
+mobileCategoryCarousel.addEventListener("pointerdown", event => {
+  if (!event.isPrimary || event.button !== 0) return;
+  categoryPointerStart = { id: event.pointerId, x: event.clientX, y: event.clientY, horizontal: false };
+});
+window.addEventListener("pointermove", event => {
+  if (!categoryPointerStart || event.pointerId !== categoryPointerStart.id) return;
+  const dx = event.clientX - categoryPointerStart.x;
+  const dy = event.clientY - categoryPointerStart.y;
+  if (!categoryPointerStart.horizontal && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 1.15) {
+    categoryPointerStart.horizontal = true;
+    mobileCategoryCarousel.classList.add("is-swiping");
+  }
+  if (categoryPointerStart.horizontal) {
+    mobileCategoryCarousel.style.setProperty("--swipe-x", `${Math.max(-64, Math.min(64, dx * .55))}px`);
+  }
+});
+window.addEventListener("pointerup", event => {
+  if (!categoryPointerStart || event.pointerId !== categoryPointerStart.id) return;
+  const dx = event.clientX - categoryPointerStart.x;
+  const dy = event.clientY - categoryPointerStart.y;
+  const shouldSwitch = categoryPointerStart.horizontal && Math.abs(dx) >= 35 && Math.abs(dx) > Math.abs(dy) * 1.15;
+  resetCategoryDrag();
+  if (!shouldSwitch) return;
   suppressCategoryClick = true;
+  window.clearTimeout(categoryClickTimer);
   cycleCategory(dx < 0 ? 1 : -1);
-  window.setTimeout(() => { suppressCategoryClick = false; }, 450);
-}, { passive: true });
-mobileCategoryCarousel.addEventListener("touchcancel", () => { categoryTouchStart = null; });
+  categoryClickTimer = window.setTimeout(() => { suppressCategoryClick = false; }, 450);
+});
+window.addEventListener("pointercancel", event => {
+  if (categoryPointerStart && event.pointerId === categoryPointerStart.id) resetCategoryDrag();
+});
 mobileCategoryCarousel.addEventListener("click", event => {
   if (!suppressCategoryClick) return;
   event.preventDefault();

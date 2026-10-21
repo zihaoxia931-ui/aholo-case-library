@@ -115,9 +115,8 @@ h1 em { color: #a8b0ff; font-style: normal; }
 .closing p { max-width: 530px; color: #c3cee4; font-size: 15px; line-height: 1.85; position: relative; }
 .primary-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 33px; margin-top: 22px; padding: 15px 19px; border-radius: 999px; color: var(--navy); background: #e4e8ff; font-size: 14px; font-weight: 780; transition: background .2s, transform .2s; }
 .primary-link:hover, .primary-link:focus-visible { background: white; transform: translateY(-2px); }
-.site-footer { display: flex; align-items: start; gap: 36px; padding: 36px max(32px, calc((100vw - var(--max)) / 2 + 32px)) 46px; color: #a5afc3; background: var(--navy-deep); }
+.site-footer { display: flex; align-items: center; justify-content: space-between; gap: 36px; padding: 36px max(32px, calc((100vw - var(--max)) / 2 + 32px)) 46px; color: #a5afc3; background: var(--navy-deep); }
 .footer-brand { flex: none; width: 125px; height: auto; }
-.site-footer p { flex: 1; margin: 0; max-width: 700px; font-size: 12px; line-height: 1.7; }
 .site-footer > a { color: #dbe2f6; font-size: 12px; white-space: nowrap; }
 .site-footer > a:hover { text-decoration: underline; }
 .image-dialog { border: 0; padding: 26px; max-width: min(92vw, 1120px); max-height: 92vh; border-radius: 15px; background: #10182c; color: white; box-shadow: 0 35px 100px rgba(0,0,0,.45); }
@@ -163,16 +162,18 @@ h1 em { color: #a8b0ff; font-style: normal; }
   .section-heading p { font-size: 13px; }
   .category-wrap { margin: 33px -18px 0; padding: 10px 18px; }
   .category-tabs { display: none; }
-  .mobile-category-carousel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, 1.2fr) minmax(0, 1fr); gap: 8px; align-items: stretch; min-height: 58px; touch-action: pan-y; }
+  .mobile-category-carousel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, 1.2fr) minmax(0, 1fr); gap: 8px; align-items: stretch; min-height: 62px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
   .mobile-category-side { min-width: 0; padding: 6px 4px; display: flex; align-items: center; gap: 5px; border: 0; background: transparent; color: #58657f; font-size: 11px; font-weight: 680; }
   .mobile-category-side span:last-child, .mobile-category-side span:first-child { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
   .mobile-category-side span[aria-hidden="true"] { flex: none; font-size: 18px; font-weight: 400; }
   .mobile-category-next { justify-content: flex-end; text-align: right; }
   .mobile-category-side:hover, .mobile-category-side:focus-visible { color: var(--blue); }
   .mobile-category-side:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 8px; }
-  .mobile-category-current { min-width: 0; padding: 7px 9px; display: grid; place-content: center; gap: 3px; text-align: center; border-radius: 13px; background: var(--navy); color: white; box-shadow: 0 5px 15px rgba(17,27,52,.16); }
+  .mobile-category-current { position: relative; z-index: 1; min-width: 0; padding: 6px 9px; display: grid; place-content: center; gap: 2px; text-align: center; border-radius: 13px; background: var(--navy); color: white; box-shadow: 0 5px 15px rgba(17,27,52,.16); transform: translate3d(var(--swipe-x, 0px), 0, 0); transition: transform .22s ease; }
+  .mobile-category-carousel.is-swiping .mobile-category-current { transition: none; }
   .mobile-category-current span { color: #aeb9ee; font-size: 9px; font-weight: 750; letter-spacing: .1em; }
   .mobile-category-current strong { overflow: hidden; font-size: 14px; font-weight: 750; white-space: nowrap; text-overflow: ellipsis; }
+  .mobile-category-current small { color: #b8c3e8; font-size: 9px; font-weight: 560; }
   .case-list { scroll-margin-top: 90px; }
   .category-tab { padding: 9px 13px; font-size: 12px; }
   .result-bar { padding: 27px 0 15px; }
@@ -195,9 +196,8 @@ h1 em { color: #a8b0ff; font-style: normal; }
   .closing::before { right: -100px; top: 25%; }
   .closing h2 { font-size: 44px; }
   .closing p { font-size: 14px; }
-  .site-footer { padding: 28px 21px 35px; display: grid; gap: 15px; }
+  .site-footer { padding: 28px 21px 35px; gap: 15px; }
   .footer-brand { width: 115px; }
-  .site-footer p { font-size: 11px; }
   .image-dialog { padding: 12px; max-width: 97vw; }
   .image-dialog img { max-height: calc(92vh - 76px); }
 }
