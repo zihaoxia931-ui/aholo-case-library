@@ -72,6 +72,12 @@ const categories = [
 ];
 
 const tabs = document.getElementById("category-tabs");
+const categoryOptions = [{ slug: "all", name: "全部案例" }, ...categories];
+const mobileCategoryCarousel = document.getElementById("mobile-category-carousel");
+const mobilePrevLabel = document.getElementById("mobile-prev-label");
+const mobileNextLabel = document.getElementById("mobile-next-label");
+const mobileCategoryStep = document.getElementById("mobile-category-step");
+const mobileCategoryName = document.getElementById("mobile-category-name");
 const list = document.getElementById("case-list");
 const currentCategory = document.getElementById("current-category");
 const resultCount = document.getElementById("result-count");
@@ -84,6 +90,79 @@ let highlightedCase = null;
 function imagePath(id) {
   return `assets/case-${String(id).padStart(2, "0")}.webp?v=20261021`;
 }
+
+const heroSlides = [1, 10, 4, 19, 25, 28].map(id => {
+  const category = categories.find(group => group.cases.some(item => item[0] === id));
+  return { category: category.name, item: category.cases.find(item => item[0] === id) };
+});
+const heroShowcase = document.getElementById("hero-showcase");
+const heroArt = document.getElementById("hero-art");
+const heroCurrentLink = document.getElementById("hero-current-link");
+const heroNextImage = document.getElementById("hero-next-image");
+const heroDots = document.getElementById("hero-dots");
+const heroCount = document.getElementById("hero-count");
+const heroCaseTitle = document.getElementById("hero-case-title");
+let heroIndex = 0;
+let suppressHeroClick = false;
+
+heroDots.innerHTML = heroSlides.map(({ item }, index) => `<button class="hero-dot" type="button" data-hero-slide="${index}" aria-label="切换到${item[1]}案例" aria-pressed="${index === 0}"></button>`).join("");
+
+function setHeroSlide(index, animate = true) {
+  heroIndex = (index + heroSlides.length) % heroSlides.length;
+  const active = heroSlides[heroIndex];
+  const upcoming = heroSlides[(heroIndex + 1) % heroSlides.length];
+  heroCurrentLink.href = active.item[2];
+  heroCurrentLink.setAttribute("aria-label", `查看${active.item[1]}案例`);
+  heroCurrentLink.querySelector("img").src = imagePath(active.item[0]);
+  heroCurrentLink.querySelector("img").alt = `${active.item[1]}案例画面`;
+  heroNextImage.querySelector("img").src = imagePath(upcoming.item[0]);
+  heroNextImage.setAttribute("aria-label", `切换到${upcoming.item[1]}案例`);
+  heroCount.textContent = `${String(heroIndex + 1).padStart(2, "0")} / ${String(heroSlides.length).padStart(2, "0")}`;
+  heroCaseTitle.textContent = `${active.category} / ${active.item[1]}`;
+  heroDots.querySelectorAll("button").forEach((dot, dotIndex) => dot.setAttribute("aria-pressed", String(dotIndex === heroIndex)));
+  if (animate) {
+    for (const frame of [heroCurrentLink, heroNextImage]) {
+      frame.classList.remove("is-changing");
+      void frame.offsetWidth;
+      frame.classList.add("is-changing");
+    }
+  }
+}
+
+document.getElementById("hero-prev").addEventListener("click", () => setHeroSlide(heroIndex - 1));
+document.getElementById("hero-next").addEventListener("click", () => setHeroSlide(heroIndex + 1));
+heroNextImage.addEventListener("click", () => setHeroSlide(heroIndex + 1));
+heroDots.addEventListener("click", event => {
+  const dot = event.target.closest("[data-hero-slide]");
+  if (dot) setHeroSlide(Number(dot.dataset.heroSlide));
+});
+heroShowcase.addEventListener("keydown", event => {
+  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+  event.preventDefault();
+  setHeroSlide(heroIndex + (event.key === "ArrowRight" ? 1 : -1));
+});
+
+let heroTouchStart = null;
+heroArt.addEventListener("touchstart", event => {
+  if (event.touches.length === 1) heroTouchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+}, { passive: true });
+heroArt.addEventListener("touchend", event => {
+  if (!heroTouchStart || !event.changedTouches.length) return;
+  const dx = event.changedTouches[0].clientX - heroTouchStart.x;
+  const dy = event.changedTouches[0].clientY - heroTouchStart.y;
+  heroTouchStart = null;
+  if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+  suppressHeroClick = true;
+  setHeroSlide(heroIndex + (dx < 0 ? 1 : -1));
+  window.setTimeout(() => { suppressHeroClick = false; }, 450);
+}, { passive: true });
+heroArt.addEventListener("touchcancel", () => { heroTouchStart = null; });
+heroArt.addEventListener("click", event => {
+  if (!suppressHeroClick) return;
+  event.preventDefault();
+  event.stopPropagation();
+  suppressHeroClick = false;
+}, true);
 
 function cardMarkup(category, item) {
   const [id, title, url] = item;
@@ -109,10 +188,18 @@ function sectionMarkup(category, index) {
 }
 
 function renderTabs() {
-  const options = [{ slug: "all", name: "全部案例" }, ...categories];
-  tabs.innerHTML = options.map(option => `<button class="category-tab" type="button" role="tab" aria-controls="case-list" aria-selected="${selected === option.slug}" data-category="${option.slug}">${option.name}</button>`).join("");
+  tabs.innerHTML = categoryOptions.map(option => `<button class="category-tab" type="button" role="tab" aria-controls="case-list" aria-selected="${selected === option.slug}" data-category="${option.slug}">${option.name}</button>`).join("");
   const activeTab = tabs.querySelector('[aria-selected="true"]');
   if (activeTab) tabs.scrollLeft = activeTab.offsetLeft - tabs.offsetLeft - (tabs.clientWidth - activeTab.clientWidth) / 2;
+  const activeIndex = categoryOptions.findIndex(option => option.slug === selected);
+  const previous = categoryOptions[(activeIndex - 1 + categoryOptions.length) % categoryOptions.length];
+  const next = categoryOptions[(activeIndex + 1) % categoryOptions.length];
+  mobilePrevLabel.textContent = previous.name;
+  mobileNextLabel.textContent = next.name;
+  mobileCategoryStep.textContent = `${String(activeIndex + 1).padStart(2, "0")} / ${String(categoryOptions.length).padStart(2, "0")}`;
+  mobileCategoryName.textContent = categoryOptions[activeIndex].name;
+  document.getElementById("mobile-category-prev").setAttribute("aria-label", `切换到${previous.name}`);
+  document.getElementById("mobile-category-next").setAttribute("aria-label", `切换到${next.name}`);
 }
 
 function renderCases() {
@@ -146,6 +233,38 @@ tabs.addEventListener("click", event => {
   setSelection(button.dataset.category);
   document.getElementById("explore").scrollIntoView({ behavior: "smooth", block: "start" });
 });
+
+function cycleCategory(direction) {
+  const activeIndex = categoryOptions.findIndex(option => option.slug === selected);
+  const nextIndex = (activeIndex + direction + categoryOptions.length) % categoryOptions.length;
+  setSelection(categoryOptions[nextIndex].slug);
+  list.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+document.getElementById("mobile-category-prev").addEventListener("click", () => cycleCategory(-1));
+document.getElementById("mobile-category-next").addEventListener("click", () => cycleCategory(1));
+let categoryTouchStart = null;
+let suppressCategoryClick = false;
+mobileCategoryCarousel.addEventListener("touchstart", event => {
+  if (event.touches.length === 1) categoryTouchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+}, { passive: true });
+mobileCategoryCarousel.addEventListener("touchend", event => {
+  if (!categoryTouchStart || !event.changedTouches.length) return;
+  const dx = event.changedTouches[0].clientX - categoryTouchStart.x;
+  const dy = event.changedTouches[0].clientY - categoryTouchStart.y;
+  categoryTouchStart = null;
+  if (Math.abs(dx) < 35 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+  suppressCategoryClick = true;
+  cycleCategory(dx < 0 ? 1 : -1);
+  window.setTimeout(() => { suppressCategoryClick = false; }, 450);
+}, { passive: true });
+mobileCategoryCarousel.addEventListener("touchcancel", () => { categoryTouchStart = null; });
+mobileCategoryCarousel.addEventListener("click", event => {
+  if (!suppressCategoryClick) return;
+  event.preventDefault();
+  event.stopPropagation();
+  suppressCategoryClick = false;
+}, true);
 
 list.addEventListener("click", event => {
   const card = event.target.closest("[data-view-case]");
