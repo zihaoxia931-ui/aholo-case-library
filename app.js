@@ -85,25 +85,18 @@ function imagePath(id) {
   return `assets/case-${String(id).padStart(2, "0")}.webp?v=20261021`;
 }
 
-function actionLabel(url) {
-  if (url.includes("drive.weixin.qq.com")) return "查看案例内容";
-  if (url.includes("bilibili.com")) return "观看视频";
-  return "查看 3D 演示";
-}
-
 function cardMarkup(category, item) {
   const [id, title, url] = item;
   const tag = url ? "a" : "article";
-  const label = url ? actionLabel(url) : "查看大图";
   const destination = url
     ? `href="${url}" target="_blank" rel="noopener noreferrer"`
     : `role="button" tabindex="0" data-view-case="${id}"`;
-  return `<${tag} class="case-card${url ? "" : " case-card-image"}${id === highlightedCase ? " is-target" : ""}" id="case-${id}" ${destination} aria-label="${title}：${label}">
-    <div class="case-image"><img src="${imagePath(id)}" alt="${title}的折页配图" loading="lazy" decoding="async"><span class="image-zoom" aria-hidden="true">${label} ↗</span></div>
+  const accessibleLabel = url ? `${title}：查看案例` : `${title}：查看案例大图`;
+  return `<${tag} class="case-card${id === highlightedCase ? " is-target" : ""}" id="case-${id}" ${destination} aria-label="${accessibleLabel}">
+    <div class="case-image"><img src="${imagePath(id)}" alt="${title}的折页配图" loading="lazy" decoding="async"><span class="image-zoom" aria-hidden="true">查看案例 ↗</span></div>
     <div class="case-body">
       <div class="case-kind">${category.name} · ${String(id).padStart(2, "0")}</div>
       <h4 class="case-title">${title}</h4>
-      <div class="case-action"><span>${label}</span><span aria-hidden="true">↗</span></div>
     </div>
   </${tag}>`;
 }
