@@ -73,11 +73,6 @@ const categories = [
 
 const tabs = document.getElementById("category-tabs");
 const categoryOptions = [{ slug: "all", name: "全部案例" }, ...categories];
-const mobileCategoryCarousel = document.getElementById("mobile-category-carousel");
-const mobilePrevLabel = document.getElementById("mobile-prev-label");
-const mobileNextLabel = document.getElementById("mobile-next-label");
-const mobileCategoryStep = document.getElementById("mobile-category-step");
-const mobileCategoryName = document.getElementById("mobile-category-name");
 const list = document.getElementById("case-list");
 const currentCategory = document.getElementById("current-category");
 const resultCount = document.getElementById("result-count");
@@ -222,15 +217,6 @@ function renderTabs() {
   tabs.innerHTML = categoryOptions.map(option => `<button class="category-tab" type="button" role="tab" aria-controls="case-list" aria-selected="${selected === option.slug}" data-category="${option.slug}">${option.name}</button>`).join("");
   const activeTab = tabs.querySelector('[aria-selected="true"]');
   if (activeTab) tabs.scrollLeft = activeTab.offsetLeft - tabs.offsetLeft - (tabs.clientWidth - activeTab.clientWidth) / 2;
-  const activeIndex = categoryOptions.findIndex(option => option.slug === selected);
-  const previous = categoryOptions[(activeIndex - 1 + categoryOptions.length) % categoryOptions.length];
-  const next = categoryOptions[(activeIndex + 1) % categoryOptions.length];
-  mobilePrevLabel.textContent = previous.name;
-  mobileNextLabel.textContent = next.name;
-  mobileCategoryStep.textContent = `${String(activeIndex + 1).padStart(2, "0")} / ${String(categoryOptions.length).padStart(2, "0")}`;
-  mobileCategoryName.textContent = categoryOptions[activeIndex].name;
-  document.getElementById("mobile-category-prev").setAttribute("aria-label", `切换到${previous.name}`);
-  document.getElementById("mobile-category-next").setAttribute("aria-label", `切换到${next.name}`);
 }
 
 function renderCases() {
@@ -263,63 +249,8 @@ tabs.addEventListener("click", event => {
   const button = event.target.closest("[data-category]");
   if (!button) return;
   setSelection(button.dataset.category);
-  document.getElementById("explore").scrollIntoView({ behavior: "smooth", block: "start" });
+  document.querySelector(".result-bar").scrollIntoView({ behavior: "smooth", block: "start" });
 });
-
-function cycleCategory(direction) {
-  const activeIndex = categoryOptions.findIndex(option => option.slug === selected);
-  const nextIndex = (activeIndex + direction + categoryOptions.length) % categoryOptions.length;
-  setSelection(categoryOptions[nextIndex].slug);
-  list.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-document.getElementById("mobile-category-prev").addEventListener("click", () => cycleCategory(-1));
-document.getElementById("mobile-category-next").addEventListener("click", () => cycleCategory(1));
-let categoryPointerStart = null;
-let suppressCategoryClick = false;
-let categoryClickTimer = null;
-function resetCategoryDrag() {
-  categoryPointerStart = null;
-  mobileCategoryCarousel.classList.remove("is-swiping");
-  mobileCategoryCarousel.style.removeProperty("--swipe-x");
-}
-mobileCategoryCarousel.addEventListener("pointerdown", event => {
-  if (!event.isPrimary || event.button !== 0) return;
-  categoryPointerStart = { id: event.pointerId, x: event.clientX, y: event.clientY, horizontal: false };
-});
-window.addEventListener("pointermove", event => {
-  if (!categoryPointerStart || event.pointerId !== categoryPointerStart.id) return;
-  const dx = event.clientX - categoryPointerStart.x;
-  const dy = event.clientY - categoryPointerStart.y;
-  if (!categoryPointerStart.horizontal && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 1.15) {
-    categoryPointerStart.horizontal = true;
-    mobileCategoryCarousel.classList.add("is-swiping");
-  }
-  if (categoryPointerStart.horizontal) {
-    mobileCategoryCarousel.style.setProperty("--swipe-x", `${Math.max(-64, Math.min(64, dx * .55))}px`);
-  }
-});
-window.addEventListener("pointerup", event => {
-  if (!categoryPointerStart || event.pointerId !== categoryPointerStart.id) return;
-  const dx = event.clientX - categoryPointerStart.x;
-  const dy = event.clientY - categoryPointerStart.y;
-  const shouldSwitch = categoryPointerStart.horizontal && Math.abs(dx) >= 35 && Math.abs(dx) > Math.abs(dy) * 1.15;
-  resetCategoryDrag();
-  if (!shouldSwitch) return;
-  suppressCategoryClick = true;
-  window.clearTimeout(categoryClickTimer);
-  cycleCategory(dx < 0 ? 1 : -1);
-  categoryClickTimer = window.setTimeout(() => { suppressCategoryClick = false; }, 450);
-});
-window.addEventListener("pointercancel", event => {
-  if (categoryPointerStart && event.pointerId === categoryPointerStart.id) resetCategoryDrag();
-});
-mobileCategoryCarousel.addEventListener("click", event => {
-  if (!suppressCategoryClick) return;
-  event.preventDefault();
-  event.stopPropagation();
-  suppressCategoryClick = false;
-}, true);
 
 list.addEventListener("click", event => {
   const card = event.target.closest("[data-view-case]");
