@@ -73,6 +73,7 @@ const categories = [
 
 const tabs = document.getElementById("category-tabs");
 const categoryOptions = [{ slug: "all", name: "全部案例" }, ...categories];
+const mobileTabs = window.matchMedia("(max-width: 700px)");
 const list = document.getElementById("case-list");
 const currentCategory = document.getElementById("current-category");
 const resultCount = document.getElementById("result-count");
@@ -214,10 +215,32 @@ function sectionMarkup(category, index) {
 }
 
 function renderTabs() {
-  tabs.innerHTML = categoryOptions.map(option => `<button class="category-tab" type="button" role="tab" aria-controls="case-list" aria-selected="${selected === option.slug}" data-category="${option.slug}">${option.name}</button>`).join("");
-  const activeTab = tabs.querySelector('[aria-selected="true"]');
+  const copy = position => categoryOptions.map(option => position === "main"
+    ? `<button class="category-tab" type="button" role="tab" aria-controls="case-list" aria-selected="${selected === option.slug}" data-loop="main" data-category="${option.slug}">${option.name}</button>`
+    : `<button class="category-tab" type="button" tabindex="-1" aria-hidden="true" data-loop="${position}" data-active="${selected === option.slug}" data-category="${option.slug}">${option.name}</button>`).join("");
+  tabs.innerHTML = mobileTabs.matches ? copy("before") + copy("main") + copy("after") : copy("main");
+  const activeTab = tabs.querySelector('[data-loop="main"][aria-selected="true"]');
   if (activeTab) tabs.scrollLeft = activeTab.offsetLeft - tabs.offsetLeft - (tabs.clientWidth - activeTab.clientWidth) / 2;
 }
+
+let tabLoopTimer;
+function recenterMobileTabs() {
+  if (!mobileTabs.matches) return;
+  const middle = tabs.querySelector('[data-loop="main"]');
+  const after = tabs.querySelector('[data-loop="after"]');
+  if (!middle || !after) return;
+  const cycleWidth = after.offsetLeft - middle.offsetLeft;
+  const middleStart = middle.offsetLeft - tabs.offsetLeft;
+  const afterStart = after.offsetLeft - tabs.offsetLeft;
+  if (tabs.scrollLeft < middleStart) tabs.scrollLeft += cycleWidth;
+  else if (tabs.scrollLeft >= afterStart) tabs.scrollLeft -= cycleWidth;
+}
+tabs.addEventListener("scroll", () => {
+  if (!mobileTabs.matches) return;
+  window.clearTimeout(tabLoopTimer);
+  tabLoopTimer = window.setTimeout(recenterMobileTabs, 130);
+}, { passive: true });
+mobileTabs.addEventListener("change", renderTabs);
 
 function renderCases() {
   const filtered = selected === "all" ? categories : categories.filter(category => category.slug === selected);
