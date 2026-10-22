@@ -84,7 +84,7 @@ let selected = "all";
 let highlightedCase = null;
 
 function imagePath(id) {
-  return `assets/case-${String(id).padStart(2, "0")}.webp?v=20261022c`;
+  return `assets/case-${String(id).padStart(2, "0")}.webp?v=20261022d`;
 }
 
 const heroSlides = [1, 10, 4, 19, 25, 28].map(id => {
