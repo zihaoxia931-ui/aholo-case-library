@@ -1,23 +1,23 @@
 const categories = [
   {
     slug: "heritage", name: "文旅文博", summary: "古建筑、文博空间与文化资产的三维呈现", cases: [
-      [1, "时思寺", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAcRBmyxcD"],
-      [2, "德寿宫", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAc2PLzg1h"],
+      [1, "时思寺", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793761612086_%E7%B4%A0%E6%9D%90%E4%BA%8C%EF%BC%9A%E6%97%B6%E6%80%9D%E5%AF%BA%E5%9C%BA%E6%99%AF%E8%BF%98%E5%8E%9F%E8%A7%86%E9%A2%91.mp4"],
+      [2, "德寿宫", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793761580183_%E6%89%A9%E6%95%A3-%E5%BE%B7%E5%AF%BF%E5%AE%AB.mp4"],
       [3, "凤冠", "https://www.aholo3d.cn/3dgs-model/phoenix-coronet-3FO4K4W84R8T"],
     ]
   },
   {
     slug: "smart-home", name: "智能家居", summary: "全屋可视、设备互联与智慧生活展示", cases: [
-      [4, "全屋 3D 说明书", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAcVKWpxoi"],
-      [5, "栖境 AI HOME", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAcdGQr0Dd"],
-      [6, "样板间", "https://www.bilibili.com/video/BV1wudnBPEpo/"],
+      [4, "全屋 3D 说明书", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793762800618_%E5%85%A8%E5%B1%8B3D%E8%AF%B4%E6%98%8E%E4%B9%A6.mp4"],
+      [5, "栖境 AI HOME", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793763412645_%E6%A0%96%E5%A2%83AIHOME.mp4"],
+      [6, "样板间", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793762718767_%E6%89%A9%E6%95%A3-%E6%A0%B7%E6%9D%BF%E9%97%B4.mp4"],
     ]
   },
   {
     slug: "urban", name: "城市更新", summary: "地块研判、空间规划与城市更新场景", cases: [
-      [7, "城市设计", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAcy4711W4"],
-      [8, "地块研判", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAcFr5auJq"],
-      [9, "危房 AI 检查", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAcuoysw1u"],
+      [7, "城市设计", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793763494745_%E5%9F%8E%E5%B8%82%E8%AE%BE%E8%AE%A1agent.mp4"],
+      [8, "地块研判", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793763776735_%E5%9C%B0%E5%9D%97AI%E7%A0%94%E5%88%A4.mp4"],
+      [9, "危房 AI 检查", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793763639043_%E6%B8%A9%E5%B7%9E%E5%8D%B1%E6%88%BFAI%E6%A3%80%E6%B5%8B.mp4"],
     ]
   },
   {
@@ -29,9 +29,9 @@ const categories = [
   },
   {
     slug: "renovation", name: "局改旧改", summary: "隐蔽工程留档、户型与实景设计", cases: [
-      [13, "隐蔽工程档案", "https://www.bilibili.com/video/BV1WTdnBvEca/"],
-      [14, "图生高斯", "https://www.bilibili.com/video/BV1MidnByEXR/"],
-      [15, "实景设计", null],
+      [13, "隐蔽工程档案", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772316200_%E6%89%A9%E6%95%A3-%E6%B0%B4%E7%94%B5.mp4"],
+      [14, "图生高斯", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793763982928_%E5%9B%BE%E7%94%9F%E4%B8%89%E7%BB%B4.mp4"],
+      [15, "实景设计", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772276311_%E5%AE%9E%E6%99%AF%E8%AE%BE%E8%AE%A1.mp4"],
     ]
   },
   {
@@ -43,28 +43,28 @@ const categories = [
   },
   {
     slug: "digital-twin", name: "数字孪生", summary: "工业空间、设备联动与自主巡检", cases: [
-      [19, "工厂数字孪生管理平台", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAcuvfQZFN"],
-      [20, "机器人自主感知导航", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAcljevfjG"],
-      [21, "数字孪生工厂 · IoT 设备融合联动", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAc0DD1hNx"],
+      [19, "工厂数字孪生管理平台", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772503693_%E5%B7%A5%E5%8E%82%E6%95%B0%E5%AD%97%E5%AD%AA%E7%94%9F%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0.mp4"],
+      [20, "机器人自主感知导航", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772531158_%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%C2%B7%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%87%AA%E4%B8%BB%E6%84%9F%E7%9F%A5%E5%AF%BC%E8%88%AA.mp4"],
+      [21, "数字孪生工厂 · IoT 设备融合联动", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772544948_%E6%95%B0%E5%AD%97%E5%AD%AA%E7%94%9F%E5%B7%A5%E5%8E%82%C2%B7IoT%E8%AE%BE%E5%A4%87%E8%9E%8D%E5%90%88%E8%81%94%E5%8A%A8.mp4"],
     ]
   },
   {
     slug: "dataset", name: "高质量数据集", summary: "结构化空间场景与语义数据展示", cases: [
       [22, "空间数据展示 01", null],
-      [23, "空间数据展示 02", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAceARcoGu"],
-      [24, "空间数据展示 03", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAcRlzxlxA"],
+      [23, "空间数据展示 02", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772634268_%E6%95%B0%E6%8D%AE%E6%A0%87%E6%B3%A8.mp4"],
+      [24, "空间数据展示 03", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772589501_%E7%A9%BA%E9%97%B4%E9%AB%98%E8%B4%A8%E9%87%8F%E6%95%B0%E6%8D%AE%E9%9B%86.mp4"],
     ]
   },
   {
     slug: "embodied-ai", name: "具身智能", summary: "虚实场景映射与具身交互推演", cases: [
-      [25, "具身智能展示 01", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAckozgKdC"],
-      [26, "具身智能展示 02", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAc1UYaN1s"],
-      [27, "具身智能展示 03", "https://www.bilibili.com/video/BV1nGdnBwEeq/"],
+      [25, "具身智能展示 01", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772848354_%E3%80%90%E7%9F%AD%E7%89%88-%E5%A4%87%E9%80%89%E3%80%91%E7%BE%A4%E6%A0%B8%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%B9%B3%E5%8F%B0%E8%A7%86%E9%A2%91.mp4"],
+      [26, "具身智能展示 02", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772900655_%E3%80%90%E9%95%BF%E7%89%88%E3%80%91%E7%BE%A4%E6%A0%B8%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%B9%B3%E5%8F%B0%E8%A7%86%E9%A2%91.mp4"],
+      [27, "具身智能展示 03", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772720507_%E5%8A%A8%E6%80%81%E5%AD%AA%E7%94%9F%E5%9B%BE%E8%A1%A8.mp4"],
     ]
   },
   {
     slug: "film", name: "影视片场", summary: "实景空间、虚实融合与影视资产", cases: [
-      [28, "时思剑鸣", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAcBo0dDLI"],
+      [28, "时思剑鸣", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793772674356_%E6%97%B6%E6%80%9D%E5%89%91%E9%B8%A32.0-%E7%A3%81%E6%98%9F.mp4"],
       [29, "虚实融合制片", null],
       [30, "影视资产", null],
     ]
