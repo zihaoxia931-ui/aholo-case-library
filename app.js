@@ -24,7 +24,7 @@ const categories = [
     slug: "construction", name: "建筑工程", summary: "建筑档案、施工与智能建造", cases: [
       [10, "建筑三维档案", "https://studio.aholo3d.cn/3dgs-model/collection/yongtai-tortoise-city"],
       [11, "标准化施工", "https://www.kujiale.com/pub/homeshow/exh/gs-model-share/SF48A3S2LCVZ?quality=null"],
-      [12, "点云驱动的建筑机器人智能施工", "https://drive.weixin.qq.com/s?k=AJUA2wdHAAc3gUkw0G"],
+      [12, "点云驱动的建筑机器人智能施工", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793763671912_%E7%82%B9%E4%BA%91%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%BB%BA%E7%AD%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%99%BA%E8%83%BD%E6%96%BD%E5%B7%A5.mp4"],
     ]
   },
   {
@@ -77,9 +77,6 @@ const mobileTabs = window.matchMedia("(max-width: 700px)");
 const list = document.getElementById("case-list");
 const currentCategory = document.getElementById("current-category");
 const resultCount = document.getElementById("result-count");
-const imageDialog = document.getElementById("image-dialog");
-const dialogImage = document.getElementById("dialog-image");
-const dialogTitle = document.getElementById("dialog-title");
 let selected = "all";
 let highlightedCase = null;
 
@@ -195,11 +192,11 @@ function cardMarkup(category, item) {
   const [id, title, url] = item;
   const tag = url ? "a" : "article";
   const destination = url
-    ? `href="${url}" target="_blank" rel="noopener noreferrer"`
-    : `role="button" tabindex="0" data-view-case="${id}"`;
-  const accessibleLabel = url ? `${title}：查看案例` : `${title}：查看案例大图`;
-  return `<${tag} class="case-card${id === highlightedCase ? " is-target" : ""}" id="case-${id}" ${destination} aria-label="${accessibleLabel}">
-    <div class="case-image"><img src="${imagePath(id)}" alt="${title}的折页配图" loading="lazy" decoding="async"><span class="image-zoom" aria-hidden="true">查看案例 ↗</span></div>
+    ? `href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${title}：查看案例"`
+    : "";
+  const action = url ? '<span class="image-zoom" aria-hidden="true">查看案例 ↗</span>' : "";
+  return `<${tag} class="case-card${id === highlightedCase ? " is-target" : ""}" id="case-${id}" ${destination}>
+    <div class="case-image"><img src="${imagePath(id)}" alt="${title}的折页配图" loading="lazy" decoding="async">${action}</div>
     <div class="case-body">
       <div class="case-kind">${category.name} · ${String(id).padStart(2, "0")}</div>
       <h4 class="case-title">${title}</h4>
@@ -274,32 +271,6 @@ tabs.addEventListener("click", event => {
   setSelection(button.dataset.category);
   document.querySelector(".result-bar").scrollIntoView({ behavior: "smooth", block: "start" });
 });
-
-list.addEventListener("click", event => {
-  const card = event.target.closest("[data-view-case]");
-  if (!card) return;
-  showCaseImage(Number(card.dataset.viewCase));
-});
-
-list.addEventListener("keydown", event => {
-  if (event.key !== "Enter" && event.key !== " ") return;
-  const card = event.target.closest("[data-view-case]");
-  if (!card) return;
-  event.preventDefault();
-  showCaseImage(Number(card.dataset.viewCase));
-});
-
-function showCaseImage(id) {
-  const category = categories.find(group => group.cases.some(item => item[0] === id));
-  const item = category.cases.find(entry => entry[0] === id);
-  dialogImage.src = imagePath(id);
-  dialogImage.alt = `${item[1]}的折页配图`;
-  dialogTitle.textContent = `${category.name} / ${item[1]}`;
-  imageDialog.showModal();
-}
-
-document.getElementById("dialog-close").addEventListener("click", () => imageDialog.close());
-imageDialog.addEventListener("click", event => { if (event.target === imageDialog) imageDialog.close(); });
 
 const incoming = new URL(window.location.href).searchParams;
 const targetId = Number(incoming.get("case"));
