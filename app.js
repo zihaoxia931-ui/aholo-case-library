@@ -24,7 +24,7 @@ const categories = [
     slug: "construction", name: "建筑工程", summary: "建筑档案、施工与智能建造", cases: [
       [10, "建筑三维档案", "https://studio.aholo3d.cn/3dgs-model/collection/yongtai-tortoise-city"],
       [11, "标准化施工", "https://www.kujiale.com/pub/homeshow/exh/gs-model-share/SF48A3S2LCVZ?quality=null"],
-      [12, "点云驱动的建筑机器人智能施工", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793763671912_%E7%82%B9%E4%BA%91%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%BB%BA%E7%AD%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%99%BA%E8%83%BD%E6%96%BD%E5%B7%A5.mp4"],
+      [12, "点云驱动的建筑机器人智能施工", "https://qhstaticva-cos.kujiale.com/media/yun/help/college/1793843592046_%E7%82%B9%E4%BA%91%E5%88%86%E5%89%B2%E4%BB%BB%E5%8A%A1%E4%B8%8B%E5%8F%91V3.mp4"],
     ]
   },
   {
