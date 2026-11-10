@@ -12,40 +12,46 @@
   <link rel="canonical" href="https://zihaoxia931-ui.github.io/">
   <link rel="icon" type="image/png" href="assets/aholo-icon.png">
   <title>Aholo 行业案例精选</title>
-  <link rel="stylesheet" href="styles.css?v=20261104b">
-  <script src="app.js?v=20261105" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261110">
+  <script src="app.js?v=20261110" defer></script>
 </head>
 <body>
   <div class="page-shell">
     <header class="site-header">
-      <a class="brand" href="./" aria-label="Aholo 行业案例首页"><img src="assets/aholo-logo.webp" alt="AHOLO"></a>
-      <a class="header-link" href="https://b.aholo3d.cn/" target="_blank" rel="noopener noreferrer">了解平台 <span aria-hidden="true">↗</span></a>
+      <a class="brand" href="./" aria-label="Aholo 行业案例首页" data-i18n-aria="brandLabel"><img src="assets/aholo-logo.webp" alt="AHOLO"></a>
+      <div class="header-actions">
+        <div class="language-switch" role="group" aria-label="语言 / Language">
+          <button class="language-option" type="button" data-lang="zh" lang="zh-CN" aria-pressed="true">中文</button>
+          <button class="language-option" type="button" data-lang="en" lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a class="header-link" href="https://b.aholo3d.cn/" target="_blank" rel="noopener noreferrer"><span data-i18n="headerLink">了解平台</span> <span aria-hidden="true">↗</span></a>
+      </div>
     </header>
 
     <main>
       <section class="hero" aria-labelledby="page-title">
         <div class="hero-copy">
           <span class="eyebrow"><span class="eyebrow-line"></span> AHOLO / CASE COLLECTION</span>
-          <h1 id="page-title">让空间案例<br><em>自己开口。</em></h1>
-          <p>从文旅文博到具身智能，浏览折页里的真实场景。点击图片进入对应行业，有演示内容的卡片可直接查看。</p>
-          <div class="hero-metrics" aria-label="案例概览">
-            <div><strong>10</strong><span>个行业方向</span></div>
+          <h1 id="page-title" data-i18n-html="heroTitle">让空间案例<br><em>自己开口。</em></h1>
+          <p data-i18n="heroDescription">从文旅文博到具身智能，浏览折页里的真实场景。点击图片进入对应行业，有演示内容的卡片可直接查看。</p>
+          <div class="hero-metrics" aria-label="案例概览" data-i18n-aria="metricsLabel">
+            <div><strong>10</strong><span data-i18n="industryCount">个行业方向</span></div>
             <span class="metric-divider" aria-hidden="true"></span>
-            <div><strong>30</strong><span>个案例与场景展示</span></div>
+            <div><strong>30</strong><span data-i18n="caseCount">个案例与场景展示</span></div>
           </div>
         </div>
-        <div class="hero-showcase" id="hero-showcase" aria-label="精选案例轮播" aria-roledescription="轮播">
+        <div class="hero-showcase" id="hero-showcase" aria-label="精选案例轮播" aria-roledescription="轮播" data-i18n-aria="carouselLabel">
           <div class="hero-art" id="hero-art">
             <a class="hero-image hero-image-back" id="hero-next-image" href="?category=construction#group-construction" aria-label="查看建筑工程行业"><img src="assets/case-10.webp?v=20261021" alt=""></a>
-            <a class="hero-image hero-image-front" id="hero-current-link" href="?category=heritage#group-heritage" aria-label="查看文旅文博行业"><img src="assets/case-01.webp?v=20261021" alt="时思寺案例画面"><span class="hero-image-cta" aria-hidden="true">查看行业 ↓</span></a>
+            <a class="hero-image hero-image-front" id="hero-current-link" href="?category=heritage#group-heritage" aria-label="查看文旅文博行业"><img src="assets/case-01.webp?v=20261021" alt="时思寺案例画面"><span class="hero-image-cta" aria-hidden="true" data-i18n="viewIndustry">查看行业 ↓</span></a>
             <div class="hero-art-caption"><span class="live-indicator"></span><span id="hero-count">01 / 06</span></div>
           </div>
           <div class="hero-carousel-controls">
-            <div class="hero-carousel-info" aria-live="polite"><span>FEATURED CASE <small>左右滑动切换</small></span><strong id="hero-case-title">文旅文博 / 时思寺</strong></div>
+            <div class="hero-carousel-info" aria-live="polite"><span>FEATURED CASE <small data-i18n="swipeHint">左右滑动切换</small></span><strong id="hero-case-title">文旅文博 / 时思寺</strong></div>
             <div class="hero-nav">
-              <button class="hero-arrow" id="hero-prev" type="button" aria-label="上一个案例">←</button>
-              <div class="hero-dots" id="hero-dots" role="group" aria-label="精选案例分页"></div>
-              <button class="hero-arrow" id="hero-next" type="button" aria-label="下一个案例">→</button>
+              <button class="hero-arrow" id="hero-prev" type="button" aria-label="上一个案例" data-i18n-aria="previousCase">←</button>
+              <div class="hero-dots" id="hero-dots" role="group" aria-label="精选案例分页" data-i18n-aria="carouselPagination"></div>
+              <button class="hero-arrow" id="hero-next" type="button" aria-label="下一个案例" data-i18n-aria="nextCase">→</button>
             </div>
           </div>
         </div>
@@ -55,18 +61,18 @@
         <div class="section-heading">
           <div>
             <span class="section-kicker">THE COLLECTION / 2026</span>
-            <h2 id="explore-title">探索空间的更多可能</h2>
-            <p>选择与你业务相关的方向，有演示内容的案例卡片可直接打开查看。</p>
+            <h2 id="explore-title" data-i18n="exploreTitle">探索空间的更多可能</h2>
+            <p data-i18n="exploreDescription">选择与你业务相关的方向，有演示内容的案例卡片可直接打开查看。</p>
           </div>
         </div>
 
         <div class="category-wrap">
-          <div class="category-swipe-hint" aria-hidden="true"><span>行业方向</span><span>循环滑动浏览 · 点击选择 ↔</span></div>
-          <div class="category-tabs" id="category-tabs" role="tablist" aria-label="行业分类"></div>
+          <div class="category-swipe-hint" aria-hidden="true"><span data-i18n="categoryHint">行业方向</span><span data-i18n="categoryInstruction">循环滑动浏览 · 点击选择 ↔</span></div>
+          <div class="category-tabs" id="category-tabs" role="tablist" aria-label="行业分类" data-i18n-aria="categoryTabsLabel"></div>
         </div>
 
         <div class="result-bar" aria-live="polite">
-          <div><span class="result-label">当前浏览</span><strong id="current-category">全部案例</strong></div>
+          <div><span class="result-label" data-i18n="browsingLabel">当前浏览</span><strong id="current-category">全部案例</strong></div>
           <span id="result-count">30 个展示</span>
         </div>
         <div id="case-list" class="case-list"></div>
@@ -74,15 +80,15 @@
 
       <section class="closing" aria-labelledby="closing-title">
         <span class="section-kicker">FROM VIEWING TO TRYING</span>
-        <h2 id="closing-title">找到相近场景，<br>再讨论你的试点。</h2>
-        <p>可以从一处空间、一个物体或一段采集素材开始，先验证重建效果与后续应用方式。</p>
-        <a class="primary-link" href="https://b.aholo3d.cn/" target="_blank" rel="noopener noreferrer">前往 Aholo 企业平台 <span aria-hidden="true">↗</span></a>
+        <h2 id="closing-title" data-i18n-html="closingTitle">找到相近场景，<br>再讨论你的试点。</h2>
+        <p data-i18n="closingDescription">可以从一处空间、一个物体或一段采集素材开始，先验证重建效果与后续应用方式。</p>
+        <a class="primary-link" href="https://b.aholo3d.cn/" target="_blank" rel="noopener noreferrer"><span data-i18n="primaryLink">前往 Aholo 企业平台</span> <span aria-hidden="true">↗</span></a>
       </section>
     </main>
 
     <footer class="site-footer">
       <img class="footer-brand" src="assets/aholo-logo.webp" alt="AHOLO">
-      <a href="https://b.aholo3d.cn/" target="_blank" rel="noopener noreferrer">官网 ↗</a>
+      <a href="https://b.aholo3d.cn/" target="_blank" rel="noopener noreferrer"><span data-i18n="officialSite">官网</span> ↗</a>
     </footer>
   </div>
 </body>

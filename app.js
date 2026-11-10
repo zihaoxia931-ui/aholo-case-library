@@ -71,6 +71,84 @@ const categories = [
   },
 ];
 
+const englishCategories = {
+  heritage: ["Cultural Heritage", "3D presentations of historic buildings, museums, and cultural assets"],
+  "smart-home": ["Smart Living", "Whole-home visualization, connected devices, and smarter living"],
+  urban: ["Urban Renewal", "Site assessment, spatial planning, and urban renewal"],
+  construction: ["Construction", "Building records, construction workflows, and intelligent building"],
+  renovation: ["Renovation & Retrofit", "Concealed works records, floor plans, and real-space design"],
+  "ai-modeling": ["AI + 3D Modeling", "Individual assets, from furniture to fashion"],
+  "digital-twin": ["Digital Twins", "Industrial spaces, connected equipment, and autonomous inspection"],
+  dataset: ["High-Quality Datasets", "Structured spatial scenes and semantic data"],
+  "embodied-ai": ["Embodied AI", "Physical-digital scene mapping and embodied interaction"],
+  film: ["Film Production", "Real locations, virtual production, and film assets"],
+};
+
+const englishCaseTitles = {
+  1: "Shisi Temple", 2: "Deshou Palace", 3: "Phoenix Coronet",
+  4: "Whole-Home 3D Guide", 5: "Qijing AI HOME", 6: "Show Home",
+  7: "Urban Design", 8: "Site Feasibility Review", 9: "AI Building Safety Check",
+  10: "3D Building Archive", 11: "Standardized Construction", 12: "Point-Cloud-Driven Robotic Construction",
+  13: "Concealed Works Archive", 14: "Image-to-Gaussian", 15: "Design in Real Spaces",
+  16: "Lounge Chair", 17: "Plush Toy", 18: "Qipao Dress",
+  19: "Factory Digital Twin Management Platform", 20: "Autonomous Robot Perception & Navigation",
+  21: "Digital Twin Factory · IoT Integration",
+  22: "Spatial Data Showcase 01", 23: "Spatial Data Showcase 02", 24: "Spatial Data Showcase 03",
+  25: "Embodied AI Showcase 01", 26: "Embodied AI Showcase 02", 27: "Embodied AI Showcase 03",
+  28: "Shisi: Sword Resonance", 29: "Hybrid Virtual Production", 30: "Film Asset Collection",
+};
+
+const copy = {
+  zh: {
+    pageTitle: "Aholo 行业案例精选",
+    pageDescription: "按行业浏览 Aholo 折页中的空间智能与三维应用案例，有演示内容的卡片可直接查看。",
+    brandLabel: "Aholo 行业案例首页", headerLink: "了解平台",
+    heroTitle: "让空间案例<br><em>自己开口。</em>",
+    heroDescription: "从文旅文博到具身智能，浏览折页里的真实场景。点击图片进入对应行业，有演示内容的卡片可直接查看。",
+    metricsLabel: "案例概览", industryCount: "个行业方向", caseCount: "个案例与场景展示",
+    carouselLabel: "精选案例轮播", viewIndustry: "查看行业 ↓", swipeHint: "左右滑动切换",
+    previousCase: "上一个案例", nextCase: "下一个案例", carouselPagination: "精选案例分页",
+    exploreTitle: "探索空间的更多可能",
+    exploreDescription: "选择与你业务相关的方向，有演示内容的案例卡片可直接打开查看。",
+    categoryHint: "行业方向", categoryInstruction: "循环滑动浏览 · 点击选择 ↔", categoryTabsLabel: "行业分类",
+    browsingLabel: "当前浏览", allCases: "全部案例",
+    closingTitle: "找到相近场景，<br>再讨论你的试点。",
+    closingDescription: "可以从一处空间、一个物体或一段采集素材开始，先验证重建效果与后续应用方式。",
+    primaryLink: "前往 Aholo 企业平台", officialSite: "官网",
+    viewCase: "查看案例 ↗", caseImage: title => `${title}的折页配图`,
+    caseLink: title => `${title}：查看案例`, heroIndustry: name => `查看${name}行业`,
+    heroImage: title => `${title}案例画面`, heroDot: title => `切换到${title}案例`,
+    displayCount: count => `${count} 个展示`,
+  },
+  en: {
+    pageTitle: "Aholo | Industry Case Collection",
+    pageDescription: "Explore Aholo's spatial intelligence and 3D use cases by industry. Open any case with a demo to learn more.",
+    brandLabel: "Aholo case collection home", headerLink: "Explore Aholo",
+    heroTitle: "Spaces speak.<br><em>Stories unfold.</em>",
+    heroDescription: "From cultural heritage to embodied AI, explore real-world spatial applications. Tap an image to jump to its industry, then open any case with a demo.",
+    metricsLabel: "Collection overview", industryCount: "industry sectors", caseCount: "cases and showcases",
+    carouselLabel: "Featured case carousel", viewIndustry: "View industry ↓", swipeHint: "Swipe to explore",
+    previousCase: "Previous case", nextCase: "Next case", carouselPagination: "Featured case pages",
+    exploreTitle: "Explore what space can do",
+    exploreDescription: "Choose an industry relevant to your work. Tap any case card with a demo to explore it.",
+    categoryHint: "INDUSTRIES", categoryInstruction: "Swipe to browse · Tap to select ↔", categoryTabsLabel: "Industry categories",
+    browsingLabel: "VIEWING", allCases: "All cases",
+    closingTitle: "See your use case.<br>Start a pilot.",
+    closingDescription: "Start with a space, an object, or a short capture. Test the reconstruction quality and how you could use the result.",
+    primaryLink: "Visit Aholo for Business", officialSite: "Website",
+    viewCase: "View case ↗", caseImage: title => `Brochure image for ${title}`,
+    caseLink: title => `View case: ${title}`, heroIndustry: name => `View ${name}`,
+    heroImage: title => `Preview of ${title}`, heroDot: title => `Show ${title}`,
+    displayCount: count => `${count} showcases`,
+  },
+};
+
+let language = new URLSearchParams(window.location.search).get("lang") === "en" ? "en" : "zh";
+const phrase = key => copy[language][key];
+const categoryName = category => language === "en" ? englishCategories[category.slug][0] : category.name;
+const categorySummary = category => language === "en" ? englishCategories[category.slug][1] : category.summary;
+const caseTitle = item => language === "en" ? englishCaseTitles[item[0]] : item[1];
+
 const tabs = document.getElementById("category-tabs");
 const categoryOptions = [{ slug: "all", name: "全部案例" }, ...categories];
 const mobileTabs = window.matchMedia("(max-width: 700px)");
@@ -86,7 +164,7 @@ function imagePath(id) {
 
 const heroSlides = [1, 10, 4, 19, 25, 28].map(id => {
   const category = categories.find(group => group.cases.some(item => item[0] === id));
-  return { category: category.name, slug: category.slug, item: category.cases.find(item => item[0] === id) };
+  return { category, slug: category.slug, item: category.cases.find(item => item[0] === id) };
 });
 const heroShowcase = document.getElementById("hero-showcase");
 const heroArt = document.getElementById("hero-art");
@@ -98,24 +176,28 @@ const heroCaseTitle = document.getElementById("hero-case-title");
 let heroIndex = 0;
 let suppressHeroClick = false;
 
-heroDots.innerHTML = heroSlides.map(({ item }, index) => `<button class="hero-dot" type="button" data-hero-slide="${index}" aria-label="切换到${item[1]}案例" aria-pressed="${index === 0}"></button>`).join("");
+heroDots.innerHTML = heroSlides.map(({ item }, index) => `<button class="hero-dot" type="button" data-hero-slide="${index}" aria-label="${phrase("heroDot")(caseTitle(item))}" aria-pressed="${index === 0}"></button>`).join("");
 
 function setHeroSlide(index, animate = true) {
   heroIndex = (index + heroSlides.length) % heroSlides.length;
   const active = heroSlides[heroIndex];
   const upcoming = heroSlides[(heroIndex + 1) % heroSlides.length];
-  heroCurrentLink.href = `?category=${active.slug}#group-${active.slug}`;
+  const langQuery = language === "en" ? "lang=en&" : "";
+  heroCurrentLink.href = `?${langQuery}category=${active.slug}#group-${active.slug}`;
   heroCurrentLink.dataset.category = active.slug;
-  heroCurrentLink.setAttribute("aria-label", `查看${active.category}行业`);
+  heroCurrentLink.setAttribute("aria-label", phrase("heroIndustry")(categoryName(active.category)));
   heroCurrentLink.querySelector("img").src = imagePath(active.item[0]);
-  heroCurrentLink.querySelector("img").alt = `${active.item[1]}案例画面`;
+  heroCurrentLink.querySelector("img").alt = phrase("heroImage")(caseTitle(active.item));
   heroNextImage.querySelector("img").src = imagePath(upcoming.item[0]);
-  heroNextImage.href = `?category=${upcoming.slug}#group-${upcoming.slug}`;
+  heroNextImage.href = `?${langQuery}category=${upcoming.slug}#group-${upcoming.slug}`;
   heroNextImage.dataset.category = upcoming.slug;
-  heroNextImage.setAttribute("aria-label", `查看${upcoming.category}行业`);
+  heroNextImage.setAttribute("aria-label", phrase("heroIndustry")(categoryName(upcoming.category)));
   heroCount.textContent = `${String(heroIndex + 1).padStart(2, "0")} / ${String(heroSlides.length).padStart(2, "0")}`;
-  heroCaseTitle.textContent = `${active.category} / ${active.item[1]}`;
-  heroDots.querySelectorAll("button").forEach((dot, dotIndex) => dot.setAttribute("aria-pressed", String(dotIndex === heroIndex)));
+  heroCaseTitle.textContent = `${categoryName(active.category)} / ${caseTitle(active.item)}`;
+  heroDots.querySelectorAll("button").forEach((dot, dotIndex) => {
+    dot.setAttribute("aria-pressed", String(dotIndex === heroIndex));
+    dot.setAttribute("aria-label", phrase("heroDot")(caseTitle(heroSlides[dotIndex].item)));
+  });
   if (animate) {
     for (const frame of [heroCurrentLink, heroNextImage]) {
       frame.classList.remove("is-changing");
@@ -132,9 +214,7 @@ function openHeroCategory(event) {
   event.preventDefault();
   const slug = event.currentTarget.dataset.category;
   setSelection(slug);
-  const url = new URL(window.location.href);
-  url.hash = `group-${slug}`;
-  history.replaceState(null, "", url);
+  history.replaceState(null, "", `${window.location.pathname}${window.location.search}#group-${slug}`);
   requestAnimationFrame(() => document.getElementById(`group-${slug}`)?.closest(".category-section")?.scrollIntoView({ behavior: "smooth", block: "start" }));
 }
 heroCurrentLink.addEventListener("click", openHeroCategory);
@@ -189,16 +269,17 @@ heroArt.addEventListener("click", event => {
 }, true);
 
 function cardMarkup(category, item) {
-  const [id, title, url] = item;
+  const [id, , url] = item;
+  const title = caseTitle(item);
   const tag = url ? "a" : "article";
   const destination = url
-    ? `href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${title}：查看案例"`
+    ? `target="_blank" rel="noopener noreferrer" aria-label="${phrase("caseLink")(title)}"`
     : "";
-  const action = url ? '<span class="image-zoom" aria-hidden="true">查看案例 ↗</span>' : "";
-  return `<${tag} class="case-card${id === highlightedCase ? " is-target" : ""}" id="case-${id}" ${destination}>
-    <div class="case-image"><img src="${imagePath(id)}" alt="${title}的折页配图" loading="lazy" decoding="async">${action}</div>
+  const action = url ? `<span class="image-zoom" aria-hidden="true">${phrase("viewCase")}</span>` : "";
+  return `<${tag} class="case-card${id === highlightedCase ? " is-target" : ""}" id="case-${id}" data-case-id="${id}" ${destination}>
+    <div class="case-image"><img alt="${phrase("caseImage")(title)}" loading="lazy" decoding="async">${action}</div>
     <div class="case-body">
-      <div class="case-kind">${category.name} · ${String(id).padStart(2, "0")}</div>
+      <div class="case-kind">${categoryName(category)} · ${String(id).padStart(2, "0")}</div>
       <h4 class="case-title">${title}</h4>
     </div>
   </${tag}>`;
@@ -206,15 +287,15 @@ function cardMarkup(category, item) {
 
 function sectionMarkup(category, index) {
   return `<section class="category-section" aria-labelledby="group-${category.slug}">
-    <div class="group-heading"><div><h3 id="group-${category.slug}">${category.name}</h3><p>${category.summary}</p></div><span class="group-index">${String(index + 1).padStart(2, "0")} / 10</span></div>
+    <div class="group-heading"><div><h3 id="group-${category.slug}">${categoryName(category)}</h3><p>${categorySummary(category)}</p></div><span class="group-index">${String(index + 1).padStart(2, "0")} / 10</span></div>
     <div class="cards">${category.cases.map(item => cardMarkup(category, item)).join("")}</div>
   </section>`;
 }
 
 function renderTabs() {
   const copy = position => categoryOptions.map(option => position === "main"
-    ? `<button class="category-tab" type="button" role="tab" aria-controls="case-list" aria-selected="${selected === option.slug}" data-loop="main" data-category="${option.slug}">${option.name}</button>`
-    : `<button class="category-tab" type="button" tabindex="-1" aria-hidden="true" data-loop="${position}" data-active="${selected === option.slug}" data-category="${option.slug}">${option.name}</button>`).join("");
+    ? `<button class="category-tab" type="button" role="tab" aria-controls="case-list" aria-selected="${selected === option.slug}" data-loop="main" data-category="${option.slug}">${option.slug === "all" ? phrase("allCases") : categoryName(option)}</button>`
+    : `<button class="category-tab" type="button" tabindex="-1" aria-hidden="true" data-loop="${position}" data-active="${selected === option.slug}" data-category="${option.slug}">${option.slug === "all" ? phrase("allCases") : categoryName(option)}</button>`).join("");
   tabs.innerHTML = mobileTabs.matches ? copy("before") + copy("main") + copy("after") : copy("main");
   const activeTab = tabs.querySelector('[data-loop="main"][aria-selected="true"]');
   if (activeTab) tabs.scrollLeft = activeTab.offsetLeft - tabs.offsetLeft - (tabs.clientWidth - activeTab.clientWidth) / 2;
@@ -241,9 +322,17 @@ mobileTabs.addEventListener("change", renderTabs);
 
 function renderCases() {
   const filtered = selected === "all" ? categories : categories.filter(category => category.slug === selected);
-  currentCategory.textContent = selected === "all" ? "全部案例" : filtered[0].name;
-  resultCount.textContent = `${filtered.reduce((total, group) => total + group.cases.length, 0)} 个展示`;
+  currentCategory.textContent = selected === "all" ? phrase("allCases") : categoryName(filtered[0]);
+  resultCount.textContent = phrase("displayCount")(filtered.reduce((total, group) => total + group.cases.length, 0));
   list.innerHTML = filtered.map(category => sectionMarkup(category, categories.indexOf(category))).join("");
+  list.querySelectorAll(".case-card").forEach(card => {
+    const id = Number(card.dataset.caseId);
+    card.querySelector("img").src = imagePath(id);
+    if (card.tagName === "A") {
+      const record = categories.flatMap(category => category.cases).find(item => item[0] === id);
+      card.href = record[2];
+    }
+  });
 }
 
 function setSelection(slug, caseId = null, updateUrl = true) {
@@ -253,12 +342,12 @@ function setSelection(slug, caseId = null, updateUrl = true) {
   renderTabs();
   renderCases();
   if (updateUrl) {
-    const url = new URL(window.location.href);
-    url.searchParams.delete("category");
-    url.searchParams.delete("case");
-    url.hash = "";
-    if (slug !== "all") url.searchParams.set("category", slug);
-    history.replaceState(null, "", url);
+    const params = new URLSearchParams(window.location.search);
+    params.delete("category");
+    params.delete("case");
+    if (slug !== "all") params.set("category", slug);
+    const query = params.toString();
+    history.replaceState(null, "", window.location.pathname + (query ? "?" + query : ""));
   }
   if (caseId) {
     requestAnimationFrame(() => document.getElementById(`case-${caseId}`)?.scrollIntoView({ behavior: "smooth", block: "center" }));
@@ -272,7 +361,7 @@ tabs.addEventListener("click", event => {
   document.querySelector(".result-bar").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
-const incoming = new URL(window.location.href).searchParams;
+const incoming = new URLSearchParams(window.location.search);
 const targetId = Number(incoming.get("case"));
 const targetGroup = categories.find(group => group.cases.some(item => item[0] === targetId));
 if (targetGroup) setSelection(targetGroup.slug, targetId, false);
@@ -280,3 +369,34 @@ else setSelection(incoming.get("category") || "all", null, false);
 if (window.location.hash.startsWith("#group-")) {
   requestAnimationFrame(() => document.getElementById(window.location.hash.slice(1))?.closest(".category-section")?.scrollIntoView({ block: "start" }));
 }
+
+function applyLanguage() {
+  document.documentElement.lang = language === "en" ? "en" : "zh-CN";
+  document.title = phrase("pageTitle");
+  document.querySelector('meta[name="description"]').content = phrase("pageDescription");
+  document.querySelector('meta[property="og:title"]').content = phrase("pageTitle");
+  document.querySelector('meta[property="og:description"]').content = phrase("pageDescription");
+  document.querySelectorAll("[data-i18n]").forEach(element => { element.textContent = phrase(element.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-html]").forEach(element => { element.innerHTML = phrase(element.dataset.i18nHtml); });
+  document.querySelectorAll("[data-i18n-aria]").forEach(element => { element.setAttribute("aria-label", phrase(element.dataset.i18nAria)); });
+  document.querySelectorAll(".language-option").forEach(button => {
+    button.setAttribute("aria-pressed", String(button.dataset.lang === language));
+  });
+  setHeroSlide(heroIndex, false);
+  renderTabs();
+  renderCases();
+}
+
+document.querySelector(".language-switch").addEventListener("click", event => {
+  const button = event.target.closest("[data-lang]");
+  if (!button || button.dataset.lang === language) return;
+  language = button.dataset.lang;
+  const params = new URLSearchParams(window.location.search);
+  if (language === "en") params.set("lang", "en");
+  else params.delete("lang");
+  const query = params.toString();
+  history.replaceState(null, "", window.location.pathname + (query ? "?" + query : "") + window.location.hash);
+  applyLanguage();
+});
+
+applyLanguage();
