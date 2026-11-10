@@ -84,6 +84,19 @@ const englishCategories = {
   film: ["Film Production", "Real locations, virtual production, and film assets"],
 };
 
+const japaneseCategories = {
+  heritage: ["文化・観光", "歴史的建造物、博物館、文化資産を3Dで表現"],
+  "smart-home": ["スマートホーム", "住まい全体の可視化、機器連携、スマートな暮らし"],
+  urban: ["都市再生", "敷地の評価、空間計画、都市再生の活用シーン"],
+  construction: ["建築・建設", "建築記録、施工プロセス、スマート建設"],
+  renovation: ["部分改修・リノベーション", "隠蔽部の記録、間取り、実空間を活用した設計"],
+  "ai-modeling": ["AI＋3Dモデリング", "家具や衣服など、単体アセットの展示"],
+  "digital-twin": ["デジタルツイン", "産業空間、設備連携、自律巡回"],
+  dataset: ["高品質データセット", "構造化された空間シーンと意味情報の展示"],
+  "embodied-ai": ["エンボディドAI", "現実とデジタルの空間連携、身体性を伴うインタラクション"],
+  film: ["映像制作", "実空間、バーチャル制作、映像アセット"],
+};
+
 const englishCaseTitles = {
   1: "Shisi Temple", 2: "Deshou Palace", 3: "Phoenix Coronet",
   4: "Whole-Home 3D Guide", 5: "Qijing AI HOME", 6: "Show Home",
@@ -98,6 +111,23 @@ const englishCaseTitles = {
   28: "Shisi: Sword Resonance", 29: "Hybrid Virtual Production", 30: "Film Asset Collection",
 };
 
+const japaneseCaseTitles = {
+  1: "時思寺", 2: "徳寿宮", 3: "鳳冠",
+  4: "住まい全体の3Dガイド", 5: "栖境 AI HOME", 6: "モデルルーム",
+  7: "都市設計", 8: "敷地の評価", 9: "AIによる危険建物点検",
+  10: "建築物の3Dアーカイブ", 11: "標準化施工", 12: "点群を活用した建設ロボットのスマート施工",
+  13: "隠蔽工事アーカイブ", 14: "画像からの3D Gaussian生成", 15: "実空間を活用した設計",
+  16: "一人掛けチェア", 17: "ぬいぐるみ", 18: "チャイナドレス",
+  19: "工場デジタルツイン管理プラットフォーム", 20: "ロボットの自律認識・ナビゲーション",
+  21: "デジタルツイン工場・IoT機器連携",
+  22: "空間データ展示 01", 23: "空間データ展示 02", 24: "空間データ展示 03",
+  25: "エンボディドAI展示 01", 26: "エンボディドAI展示 02", 27: "エンボディドAI展示 03",
+  28: "時思剣鳴", 29: "実写とバーチャルを融合した映像制作", 30: "映像制作アセット",
+};
+
+const localizedCategories = { en: englishCategories, ja: japaneseCategories };
+const localizedCaseTitles = { en: englishCaseTitles, ja: japaneseCaseTitles };
+
 const copy = {
   zh: {
     pageTitle: "Aholo 行业案例精选",
@@ -105,8 +135,8 @@ const copy = {
     brandLabel: "Aholo 行业案例首页", headerLink: "了解平台",
     heroTitle: "让空间案例<br><em>自己开口。</em>",
     heroDescription: "从文旅文博到具身智能，浏览折页里的真实场景。点击图片进入对应行业，有演示内容的卡片可直接查看。",
-    metricsLabel: "案例概览", industryCount: "个行业方向", caseCount: "个案例与场景展示",
-    carouselLabel: "精选案例轮播", viewIndustry: "查看行业 ↓", swipeHint: "左右滑动切换",
+    languageSwitchLabel: "切换语言", metricsLabel: "案例概览", industryCount: "个行业方向", caseCount: "个案例与场景展示",
+    carouselLabel: "精选案例轮播", carouselRole: "轮播", viewIndustry: "查看行业 ↓", swipeHint: "左右滑动切换",
     previousCase: "上一个案例", nextCase: "下一个案例", carouselPagination: "精选案例分页",
     exploreTitle: "探索空间的更多可能",
     exploreDescription: "选择与你业务相关的方向，有演示内容的案例卡片可直接打开查看。",
@@ -126,8 +156,8 @@ const copy = {
     brandLabel: "Aholo case collection home", headerLink: "Explore Aholo",
     heroTitle: "Spaces speak.<br><em>Stories unfold.</em>",
     heroDescription: "From cultural heritage to embodied AI, explore real-world spatial applications. Tap an image to jump to its industry, then open any case with a demo.",
-    metricsLabel: "Collection overview", industryCount: "industry sectors", caseCount: "cases and showcases",
-    carouselLabel: "Featured case carousel", viewIndustry: "View industry ↓", swipeHint: "Swipe to explore",
+    languageSwitchLabel: "Switch language", metricsLabel: "Collection overview", industryCount: "industry sectors", caseCount: "cases and showcases",
+    carouselLabel: "Featured case carousel", carouselRole: "carousel", viewIndustry: "View industry ↓", swipeHint: "Swipe to explore",
     previousCase: "Previous case", nextCase: "Next case", carouselPagination: "Featured case pages",
     exploreTitle: "Explore what space can do",
     exploreDescription: "Choose an industry relevant to your work. Tap any case card with a demo to explore it.",
@@ -141,13 +171,35 @@ const copy = {
     heroImage: title => `Preview of ${title}`, heroDot: title => `Show ${title}`,
     displayCount: count => `${count} showcases`,
   },
+  ja: {
+    pageTitle: "Aholo｜業界別事例集",
+    pageDescription: "Aholoの空間知能・3D活用事例を業界別にご紹介。デモのある事例はカードからご覧いただけます。",
+    brandLabel: "Aholo 業界別事例集のトップ", headerLink: "サービスを見る",
+    heroTitle: "空間が語る。<br><em>事例が伝わる。</em>",
+    heroDescription: "文化・観光からエンボディドAIまで、実際の空間活用事例をご紹介。写真をタップすると業界別の事例へ移動し、デモのある事例はそのままご覧いただけます。",
+    languageSwitchLabel: "表示言語を切り替える", metricsLabel: "事例集の概要", industryCount: "業界", caseCount: "事例・シーン",
+    carouselLabel: "注目事例のカルーセル", carouselRole: "カルーセル", viewIndustry: "業界を見る ↓", swipeHint: "左右にスワイプ",
+    previousCase: "前の事例", nextCase: "次の事例", carouselPagination: "注目事例のページ",
+    exploreTitle: "空間の可能性を探る",
+    exploreDescription: "関連する業界を選択してください。デモがある事例カードから内容をご覧いただけます。",
+    categoryHint: "業界カテゴリー", categoryInstruction: "横にスワイプして選択 ↔", categoryTabsLabel: "業界カテゴリー",
+    browsingLabel: "表示中", allCases: "すべての事例",
+    closingTitle: "近い事例から<br>実証へ。",
+    closingDescription: "まずは一つの空間、物体、または撮影素材から。3D再構築の品質と活用方法を検証できます。",
+    primaryLink: "Aholo企業向けプラットフォームへ", officialSite: "公式サイト",
+    viewCase: "事例を見る ↗", caseImage: title => `${title}のパンフレット掲載画像`,
+    caseLink: title => `${title}の事例を見る`, heroIndustry: name => `${name}の事例を見る`,
+    heroImage: title => `${title}の事例画像`, heroDot: title => `${title}を表示`,
+    displayCount: count => `${count} 件表示`,
+  },
 };
 
-let language = new URLSearchParams(window.location.search).get("lang") === "en" ? "en" : "zh";
+const requestedLanguage = new URLSearchParams(window.location.search).get("lang");
+let language = ["en", "ja"].includes(requestedLanguage) ? requestedLanguage : "zh";
 const phrase = key => copy[language][key];
-const categoryName = category => language === "en" ? englishCategories[category.slug][0] : category.name;
-const categorySummary = category => language === "en" ? englishCategories[category.slug][1] : category.summary;
-const caseTitle = item => language === "en" ? englishCaseTitles[item[0]] : item[1];
+const categoryName = category => language === "zh" ? category.name : localizedCategories[language][category.slug][0];
+const categorySummary = category => language === "zh" ? category.summary : localizedCategories[language][category.slug][1];
+const caseTitle = item => language === "zh" ? item[1] : localizedCaseTitles[language][item[0]];
 
 const tabs = document.getElementById("category-tabs");
 const categoryOptions = [{ slug: "all", name: "全部案例" }, ...categories];
@@ -182,7 +234,7 @@ function setHeroSlide(index, animate = true) {
   heroIndex = (index + heroSlides.length) % heroSlides.length;
   const active = heroSlides[heroIndex];
   const upcoming = heroSlides[(heroIndex + 1) % heroSlides.length];
-  const langQuery = language === "en" ? "lang=en&" : "";
+  const langQuery = language === "zh" ? "" : `lang=${language}&`;
   heroCurrentLink.href = `?${langQuery}category=${active.slug}#group-${active.slug}`;
   heroCurrentLink.dataset.category = active.slug;
   heroCurrentLink.setAttribute("aria-label", phrase("heroIndustry")(categoryName(active.category)));
@@ -371,7 +423,7 @@ if (window.location.hash.startsWith("#group-")) {
 }
 
 function applyLanguage() {
-  document.documentElement.lang = language === "en" ? "en" : "zh-CN";
+  document.documentElement.lang = language === "zh" ? "zh-CN" : language;
   document.title = phrase("pageTitle");
   document.querySelector('meta[name="description"]').content = phrase("pageDescription");
   document.querySelector('meta[property="og:title"]').content = phrase("pageTitle");
@@ -379,6 +431,7 @@ function applyLanguage() {
   document.querySelectorAll("[data-i18n]").forEach(element => { element.textContent = phrase(element.dataset.i18n); });
   document.querySelectorAll("[data-i18n-html]").forEach(element => { element.innerHTML = phrase(element.dataset.i18nHtml); });
   document.querySelectorAll("[data-i18n-aria]").forEach(element => { element.setAttribute("aria-label", phrase(element.dataset.i18nAria)); });
+  document.querySelectorAll("[data-i18n-role]").forEach(element => { element.setAttribute("aria-roledescription", phrase(element.dataset.i18nRole)); });
   document.querySelectorAll(".language-option").forEach(button => {
     button.setAttribute("aria-pressed", String(button.dataset.lang === language));
   });
@@ -392,7 +445,7 @@ document.querySelector(".language-switch").addEventListener("click", event => {
   if (!button || button.dataset.lang === language) return;
   language = button.dataset.lang;
   const params = new URLSearchParams(window.location.search);
-  if (language === "en") params.set("lang", "en");
+  if (language !== "zh") params.set("lang", language);
   else params.delete("lang");
   const query = params.toString();
   history.replaceState(null, "", window.location.pathname + (query ? "?" + query : "") + window.location.hash);

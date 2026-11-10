@@ -39,6 +39,7 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .eyebrow-line { width: 32px; height: 1px; background: #9eaaff; }
 h1 { font-size: clamp(52px, 6.2vw, 88px); letter-spacing: -.065em; line-height: 1.14; font-weight: 750; margin: 29px 0 25px; }
 html[lang="en"] h1 { font-size: clamp(50px, 5.8vw, 80px); letter-spacing: -.055em; }
+html[lang="ja"] h1 { font-size: clamp(44px, 5vw, 72px); letter-spacing: -.055em; }
 h1 em { color: #a8b0ff; font-style: normal; }
 .hero-copy > p { font-size: 16px; line-height: 1.9; color: #c3cee4; max-width: 515px; margin-bottom: 35px; }
 .hero-metrics { display: flex; gap: 24px; align-items: center; padding-top: 28px; border-top: 1px solid rgba(226,234,255,.18); width: fit-content; }
@@ -136,17 +137,19 @@ a.case-card:hover .image-zoom, a.case-card:focus-visible .image-zoom { backgroun
 }
 
 @media (max-width: 700px) {
-  .site-header { height: 66px; padding: 0 20px; }
+  .site-header { height: auto; min-height: 88px; padding: 12px 20px 11px; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; column-gap: 10px; row-gap: 9px; }
   .brand { width: 119px; }
-  .header-actions { gap: 8px; }
-  .language-switch { padding: 3px; }
+  .brand { grid-column: 1; grid-row: 1; }
+  .header-actions { display: contents; }
+  .language-switch { grid-column: 1 / -1; grid-row: 2; justify-self: end; padding: 3px; }
   .language-option { min-width: 33px; padding: 6px 7px; font-size: 11px; }
-  .header-link { font-size: 11px; padding: 8px 12px; }
+  .header-link { grid-column: 2; grid-row: 1; justify-self: end; font-size: 11px; padding: 8px 12px; }
   .hero { min-height: 0; padding: 52px 21px 50px; display: flex; flex-direction: column; align-items: stretch; gap: 35px; }
   .hero-copy { max-width: none; }
   .eyebrow { font-size: 10px; }
   h1 { font-size: clamp(47px, 11vw, 70px); margin: 20px 0 18px; }
   html[lang="en"] h1 { font-size: clamp(44px, 10.5vw, 64px); }
+  html[lang="ja"] h1 { font-size: clamp(36px, 10vw, 48px); }
   .hero-copy > p { font-size: 14px; line-height: 1.75; margin-bottom: 24px; }
   .hero-metrics { padding-top: 21px; gap: 17px; }
   .hero-metrics strong { font-size: 28px; }
